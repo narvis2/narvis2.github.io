@@ -84,7 +84,7 @@ onPause() -> onStop() -> onDestory() -> onStart() -> onResumse()
 - 위의 상태에서 B Activity를 종료 즉, finish() 함수를 통해 종료하면 생명주기는 어떻게 될까요??  
   'B' onPause() -> 'A' onRestart() -> 'A' onStart() -> 'A' onResume() -> 'B' onStop() -> 'B' onDestroy() -> 'A'는 사용자에게 보여짐.
 
-## 포스팅을 마지며..
+## 마지며..
 처음 작성하는 포스팅이다보니 다소 서툴렀던 점 양해부탁드립니다.  
 Activity Lifecycle 포스팅은 쓸데없는 설명은 최대한 자제하며 실용적인 의미의 내용만 담을려 노력하였습니다.  
 긴 글 읽어주셔서 감사드리고 여러분께 꼭 도움이 되셨으면 합니다.  
