@@ -5,7 +5,7 @@ date: 2022-07-13 09:28:00 +0900
 categories: [Android]
 tags: [android, activity, lifecycle]
 ---
-## Android Lifecycle 동작 순서
+## Android Activity Lifecycle 동작 순서
 ---
 [구글 공식 홈페이지](https://developer.android.com/guide/components/activities/activity-lifecycle?hl=ko)에 나와있는 이미지를 참고하시면 이해가 쉽습니다.  
 해당 이미지를 참고하여 Activity Lifecycle 의 순서를 보면 Activity 생성 시 onCreate() -> onStart() -> onResume() 의 순서로 콜백이 실행되며 Activity의 구성요소 혹은 일부가 사라지면 onPause() -> onStop() -> onDestory() 순으로 콜백이 실행되며 onDestory() 이후에 Activity가 종료됩니다.  
