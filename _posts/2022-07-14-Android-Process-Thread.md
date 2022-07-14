@@ -77,3 +77,10 @@ tags: [android, process, thread]
 3. View.postDelayed(Runnable, long)
 4. 위의 방법을 사용하기에 복잡한 작업은 Handler를 사용하여 UI Thread에서 전달받은 메시지를 처리하는 방안을 고려해야 합니다.  
 [Handler, Looper 정리](https://narvis2.github.io/posts/Android-handler-looper/) 참조
+
+## Thread-Safe
+- 어떤 경우에는 구현하는 메서드가 하나 이상의 Thread에서 호출되는 일이 있어 안전하게 작성해야 합니다.
+- 주로 원격으로 호출할 수 있는 메서드가 이에 해당합니다.(bindService 등..)
+- IBinder 에서 구현된 메서드가 IBinder가 실행되는 Process 에서 호출될 경우, 해당 메서드는 호출자의 Thread에서 실행됩니다.  
+이 호출이 다른 Process에서 발생하면, 해당 메서드는 System이 IBinder와 같은 Process에 유지하는 Thread Pool에서 선택된 Thread에서 실행됩니다.(Process의 UI Thread에서 실행되지 않음.) 이 같은 이유로 Thread로 부터 안전한 구현이 필요합니다.
+
