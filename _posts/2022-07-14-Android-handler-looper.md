@@ -7,15 +7,27 @@ tags: [android, thread, handler, looper]
 ---
 
 이번에는 Handler, Looper 에 대해서 알아보도록 하겠습니다.  
-Android의 UI 처리는 Single Thread Model로 동작합니다. 즉, mainThread가 아닌 다른 Thread에서 UI 를 Update하는 등의 행위를 하면 안됩니다. 따라서 mainThread를 UI Thread라고 부르기도 합니다. 동작의 무결성을 보장하기 위해 타 Thread에서는 UI를 건드릴 수 없고, 오로지 Main Thread에서만 UI 관련 동작을 할 수 있게끔 합니다.(MainThread를 제외한 다른 Thread에서 UI Update시 **_IOException_**이 발생합니다.)  
-이때 시간이 오래걸리는 작업을 MainThread에서 하게되면 UI가 멈추게 되는데 이를 방지하기 위해 시간이 오래걸리는 작업은 다른 Thread에서 하고, 해당 결과를 Main Thread에 넘겨줘서 Main Thread에서 해당 결과 값을 바탕으로 UI를 Update합니다.  
-여기서 다른 Thread -> Ui Thread 간에 결과값을 넘겨줄 때 통신을 위해서 즉, Thread 간의 통신을 위해 사용하는 것이 Handler 와 Looper 입니다.  
+Android의 UI 처리는 Single Thread Model로 동작합니다. 즉, mainThread가 아닌 다른 Thread에서 UI 를 Update하는 등의 행위를 하면 안됩니다. 따라서 mainThread를 UI Thread라고 부르기도 합니다.  
+동작의 무결성을 보장하기 위해 타 Thread에서는 UI를 건드릴 수 없고, 오로지 Main Thread에서만 UI 관련 동작을 할 수 있게끔 합니다.(MainThread를 제외한 다른 Thread에서 UI Update시 **_IOException_**이 발생합니다.)  
+이때 시간이 오래걸리는 작업을 MainThread에서 하게되면 UI가 멈추게 되는데(ANR) 이를 방지하기 위해 시간이 오래걸리는 작업은 다른 Thread에서 하고, 해당 결과를 Main Thread에 넘겨줘서 Main Thread에서 해당 결과 값을 바탕으로 UI를 Update합니다.  
+> Android에서는 UI Thread가 몇 초 이상 차단되면(현재는 약 5초) 사용자에게 Application Not Response(ANR) 이라는 대화 상자가 표시되고, 어플리케이션이 종료 되거나 불만족에 의해 제거 될 수 있습니다.  
+  
+여기서 다른 Thread -> Ui Thread 간에 결과값을 넘겨줄 때 통신을 위해서 즉, Thread 간의 통신을 위해 사용하는 것이 Handler 와 Looper 입니다. 
+> UI 반응성을 위해 UI Thread를 차단하지 않는 것이 매우 중요하며, UI Update를 제외하고 시간이 소요되는 작업은 반드시 별도의 Thread에서 수행해야 하는데 이 별도의 Thread를 Background Thread 또는 Worker Thread라고 합니다.  
+   
 이번에도 실용적인 측면에 초점을 두고 다루겠습니다.  
-
+  
 ## 간단한 용어 설명 Thread, Main Thread
 ---
 Thread에 대해 간단히 설명드리면 "하나의 독립된 실행 흐름" 이라고 생각하시면 됩니다.  
 mainThread는 하나의 프로그램이 실행될때 최초로 실행되는 Thread라고 생각하시면 됩니다.
+
+## 다른 Thread -> UI Thread에 Access 하기 위해 제공하는 방식
+---
+1. Activity.runOnUiThread(Runnable)
+2. View.post(Runnable)
+3. View.postDelayed(Runnable, long)
+4. 위의 방법을 사용하기에 복잡한 작업은 Handler를 사용하여 UI Thread에서 전달받은 Message를 처리하는 방안을 고려해야 합니다.
 
 ## Looper
 ---
@@ -144,6 +156,7 @@ fun sendShowToast() {
 ```
 
 ## Handler 에 Message를 보내는 Method 알아보기
+---
 - boolean sendEmptyMessage(int what) : What 멤버만 채워진 Message 객체 전달
 - boolean sendEmptyMessageAtTime(int what, long upTimeMillies) : upTimeMillies에 지정된 시간에 what 멤머반 채워진 Message를 보냄 
 - boolean sendEmptyMessageDelayed(int what, long delayMillies) : 현재 시간에서 delayMillies 만큼의 시간 후에 what 멤버만 채워진 Message 전달
@@ -151,3 +164,9 @@ fun sendShowToast() {
 - boolean sendMessageAtFrontOfQueue(Message msg) : Message 객체 전달, MessageQueue의 가장 처음 위치에 Message 추가
 - boolean sendMessageAtTime(Message msg, long upTimeMillies) : upTimeMillies에 지정된 시간에 Message 객체 전달
 - boolean sendMessageDelayed(Message msg, long delayMillis) : 현재 시작에서 delayMillies 만큼의 시간 후에 Message 객체 전달
+
+## 마치며..
+---
+이번 포스팅에서는 Looper와 Handler에 대하여 알아보았습니다.  
+간단하게 요약하자면 Thread간 통신을 위해 Looper와 Handler를 사용한다고 이해하시면 될 것 같습니다.  
+다음에는 Android Process 및 Thread 에 대하여 알보는 시간을 갖도록 하겠습니다.
