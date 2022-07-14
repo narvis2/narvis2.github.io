@@ -88,3 +88,9 @@ AIDL 에 관한 내용은 향후 따로 포스팅을 작성하도록 하겠습�
 > - Activity를 시작하는 Intent -> PendingIntent.getActivity(context: Context, requestCode: Int, intent: Intent, flags: Int)
 > - Service를 시작하는 Intent -> PendingIntent.getService(context: Context, requestCode: Int, intent: Intent, flags: Int)
 > - BroadcastReciver를 시작하는 Intent -> PendingIntent.getBroadcast(context: Context, requestCode: Int, intent: Intent, flags: Int)
+
+## 마무리
+이번 시간에는 Service에 대하여 알아보았습니다.  
+저는 Service를 Socket 연결을 위해 Bind Service를 주로 사용하였고, AIDL 을 통해 Process 통신을 했습니다.  
+AIDL에 대한 설명은 추후 따로 포스팅을 올리겠습니다.  
+다음 포스팅은 Android 4대 컴포넌트 중 하나인 BroadcastReceiver 에 대하여 알아보는 시간을 가지도록 하겠습니다.
