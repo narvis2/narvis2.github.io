@@ -77,3 +77,14 @@ AIDL 에 관한 내용은 향후 따로 포스팅을 작성하도록 하겠습�
   
   ### 6. Destory()
   - Service가 해지될 때 호출 됩니다. Resource 해지를 수행합니다.
+
+## 번외 - PendingIntent
+- Notification 으로 작업을 수행할 때 Intent가 실행되도록 합니다.(Notification 으로 Intent 수행 시 PendingIntent 사용이 필수)
+> **참고** 
+> - 런처 바탕화면의 위젯으로 Intent 작업을 수행할때 PendingIntent를 사용합니다.  
+> - Alarm Manager를 통해 지정된 시간에 Intent가 실행되도록 할때 PendingIntent를 사용합니다.  
+- 
+> **생성**
+> - Activity를 시작하는 Intent -> PendingIntent.getActivity(context: Context, requestCode: Int, intent: Intent, flags: Int)
+> - Service를 시작하는 Intent -> PendingIntent.getService(context: Context, requestCode: Int, intent: Intent, flags: Int)
+> - BroadcastReciver를 시작하는 Intent -> PendingIntent.getBroadcast(context: Context, requestCode: Int, intent: Intent, flags: Int)
