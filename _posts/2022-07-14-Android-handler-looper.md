@@ -169,4 +169,4 @@ fun sendShowToast() {
 ---
 이번 포스팅에서는 Looper와 Handler에 대하여 알아보았습니다.  
 간단하게 요약하자면 Thread간 통신을 위해 Looper와 Handler를 사용한다고 이해하시면 될 것 같습니다.  
-다음에는 Android Process 및 Thread 에 대하여 알보는 시간을 갖도록 하겠습니다.
+다음에는 [Android Process 및 Thread](https://narvis2.github.io/posts/Android-Process-Thread/) 에 대하여 알보는 시간을 갖도록 하겠습니다.  
