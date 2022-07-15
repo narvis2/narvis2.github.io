@@ -2,7 +2,7 @@
 title: Android 4대 컴포넌트 중 Service 에 대하여 
 author: Narvis2
 date: 2022-07-14 16:56:00 +0900
-categories: [Android]
+categories: [Android, 4 Component]
 tags: [android, service, bind, foregorund]
 ---
 

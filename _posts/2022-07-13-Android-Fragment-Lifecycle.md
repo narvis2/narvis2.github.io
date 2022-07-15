@@ -2,7 +2,7 @@
 title: Android Fragment Lifecycle 생명주기 정리
 author: Narvis2
 date: 2022-07-13 09:28:00 +0900
-categories: [Android]
+categories: [Android, Lifecycle]
 tags: [android, fragment, lifecycle]
 ---
 이전 [Activity Lifecycle 정리](https://narvis2.github.io/posts/Android-Activity-Lifecycle/) 포스팅에 이어 이번에는 Fragment 의 Lifecycle에 대해 알아보겠습니다.

@@ -2,7 +2,7 @@
 title: Android Activity Lifecycle 생명주기 정리
 author: Narvis2
 date: 2022-07-13 09:28:00 +0900
-categories: [Android]
+categories: [Android, Lifecycle]
 tags: [android, activity, lifecycle]
 ---
 ## Android Activity Lifecycle 동작 순서

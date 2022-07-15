@@ -2,7 +2,7 @@
 title: Android 4대 컴포넌트 중 ContentProvider 에 대하여 
 author: Narvis2
 date: 2022-07-15 10:32:00 +0900
-categories: [Android]
+categories: [Android, 4 Component]
 tags: [contentProvider, android, contentResolver]
 ---
 
@@ -23,6 +23,8 @@ ContentProvider는 Application 사이에서 Data를 공유하는 통로 역할�
 ## ContentResolver
 - ContentProvider 가 제공하는 Data를 가져오기 위해 ContentResolver를 사용합니다.
 - **_"미리 만들어져 있는 ContentProvider로 부터 Data를 가져오는 도구"_**라고 이해하시면 됩니다.
+- Application이 ContentProvider에 접근할 때는 ContentResolver를 통해 접근하게 됩니다.
+- 기본적으로 CRUD 함수를 제공합니다.(다른 Application의 Database를 조작할 수 있습니다.)
 - 주로 Android에 있는 연락처, 갤러리, 음악 파일과 같은 기본 데이터를 가져오는 용도로 사용됩니다.
 > **참고** : Android는 Media 정보를 저장하는 저장소 용도로 **_MediaStore_**을 사용합니다.
 
@@ -150,4 +152,5 @@ fun loadBitmapCorner(
 
 ## 마치며
 이번 포스팅에서는 ContentProvider, ContentResolver에 대하여 알아보았습니다.  
+이번 포스팅을 요약하자면 ContentProvider 가 제공하는 Data를 가져오기 위해 ContentResolver를 사용하며 Application이 ContentProvider에 접근할 때는 ContentResolver를 통해 접근하게 됩니다.  
 다음 포스팅에서는 Android 4대 Component 간에 통신을 위해 사용하는 Intent에 대하여 알아보도록 하겠습니다.

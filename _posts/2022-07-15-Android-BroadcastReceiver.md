@@ -2,7 +2,7 @@
 title: Android 4대 컴포넌트 중 BroadcastReceiver 에 대하여 
 author: Narvis2
 date: 2022-07-15 8:34:00 +0900
-categories: [Android]
+categories: [Android, 4 Component]
 tags: [broadcastReceiver, android]
 ---
 
