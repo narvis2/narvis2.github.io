@@ -87,10 +87,39 @@ AIDL 에 관한 내용은 향후 따로 포스팅을 작성하도록 하겠습�
 > **생성**
 > - Activity를 시작하는 Intent -> PendingIntent.getActivity(context: Context, requestCode: Int, intent: Intent, flags: Int)
 > - Service를 시작하는 Intent -> PendingIntent.getService(context: Context, requestCode: Int, intent: Intent, flags: Int)
-> - BroadcastReciver를 시작하는 Intent -> PendingIntent.getBroadcast(context: Context, requestCode: Int, intent: Intent, flags: Int)
+> - BroadcastReciver를 시작하는 Intent -> PendingIntent.getBroadcast(context: Context, requestCode: Int, intent: Intent, flags: Int)  
+-  
+> **Flag**
+> - FLAG_UPDATE_CURRENT : PendingIntent가 이미 존재하는 경우, Extra Data를 새로운 Intent에 있는 것으로 대체합니다.
+> - FLAG_CANCEL_CURRENT : PendingIntent가 이미 존재하는 경우, 기존 PendingIntent를 Cancel 하고 다시 생성합니다.
+> - FLAG_IMMUTABLE : 기존 PendingIntent는 변경되지 않고, 새로운 데이터를 추가한 PendingIntent를 보내도 무시합니다.
+> - FLAG_NO_CREATE : PendingIntent가 기존에 존재하지 않으면 Null을 반환합니다.
+> - FLAG_ONE_SHOT : 한번만 사용할 수 있는 PendingIntent
+``` kotlin
+    fun makePendingIntent(): PendingIntent {
+        // RequestCode, Id를 고유값으로 지정하여 알람이 개별 표시되도록 설정
+        val uniId: Int = (System.currentTimeMillis() / 1000).toInt()
+        val intent = Intent(context, MainActivity::class.java)
+        return PendingIntent.getActivity(
+            context, 
+            uniId, 
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )   
+    }
+```
+
 
 ## 마무리
 이번 시간에는 Service에 대하여 알아보았습니다.  
 저는 Service를 Socket 연결을 위해 Bind Service를 주로 사용하였고, AIDL 을 통해 Process 통신을 했습니다.  
 AIDL에 대한 설명은 추후 따로 포스팅을 올리겠습니다.  
-다음 포스팅은 Android 4대 컴포넌트 중 하나인 BroadcastReceiver 에 대하여 알아보는 시간을 가지도록 하겠습니다.
+다음 포스팅은 Android 4대 컴포넌트 중 하나인 BroadcastReceiver 에 대하여 알아보는 시간을 가지도록 하겠습니다.  
+
+Android 4대 Component
+- [BroadcastReceiver](https://narvis2.github.io/posts/Android-BroadcastReceiver/) 참고
+- [Activity의 Lifecycle](https://narvis2.github.io/posts/Android-Activity-Lifecycle/) 참고
