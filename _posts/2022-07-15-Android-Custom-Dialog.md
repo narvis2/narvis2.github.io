@@ -8,7 +8,7 @@ tags: [android, custom, dialog]
 
 안녕하세요. Narvis2 입니다.  
 이번 포스팅은 조금 가벼운 주제로 쉬어가고자 합니다.  
-Custom Dialog를 만들어 필요할때 마다 간단히 호출하여 사용하는 방법을 익혀보고자 합니다.  
+Custom Dialog를 만들어 필요할 때 마다 간단히 호출하여 사용하는 방법을 익혀보고자 합니다.  
 
 ## Custom Dialog Class 생성
 ---
@@ -422,3 +422,8 @@ class HomeFragment : Fragment() {
     <item name="android:statusBarColor">@android:color/transparent</item>
 </style>
 ```
+
+## 마치며
+이번 포스팅에서는 Custom Dialog를 만드는 코드를 살펴보았습니다.  
+해당 코드는 제가 주로 사용하는 방식입니다.  
+다음에는 "중복 클릭 방지" 기능에 대한 코드를 살펴보겠습니다.  
