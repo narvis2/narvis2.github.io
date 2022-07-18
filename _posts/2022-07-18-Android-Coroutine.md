@@ -199,6 +199,19 @@ Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 ```
 > **참고** 이 context를 사용하는 Coroutine은 코드가 동작하는 시스템의 코어 숫자와 동일한 Thread 숫자를 가지는 커스텀 Pool에서 실행됩니다.
 
+## Mutex (상호배제)
+- 상호 배제란 한번에 하나의 Coroutine만 코드 블럭을 실행할 수 있도록하는 동기화 메커니즘 입니다. 즉, 모든 공유되는 상태의 변경들이 절대 동시 실행되지 않도록 합니다.
+- 동시에 실행되면 안되는 부분을 lock()/unlock() 으로 보호합니다. (List의 값을 변경하는 부분에 사용될 수 있습니다.)
+- 해당 Thread는 Block의 작업이 다 처리될 때 까지 다른 작업을 수행할 수 없습니다. (차단 역할)
+``` kotlin
+private val mutex = Mutex()
+private suspend fun test() {
+    mutex.withLock {
+        // TODO: something..
+    }
+}
+```
+
 ## 마무리
 이번 포스팅에서는 Coroutine의 기본 개념에 대하여 알아보았습니다. Coroutine을 사용하면 매우 간결하게 비동기 처리가 됩니다.  
 Coroutine 은 경량 Thread로 비동기 작업을 수행하면서 중지 상태일 때 Thread를 블로킹하지 않고 그 Thread를 재사용할 수 있기 때문에 더욱 효율적이고 빠르게 동작할 수 있습니다.  
