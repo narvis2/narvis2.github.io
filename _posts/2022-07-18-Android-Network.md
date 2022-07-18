@@ -1,9 +1,9 @@
 ---
-title: Android Network 관리
+title: Android ConnectivityManager를 통한 Network 관리
 author: Narvis2
 date: 2022-07-18 09:08:00 +0900
 categories: [Android, Network]
-tags: [android, Network]
+tags: [android, network, connectivity manager]
 ---
 
 안녕하세요. Narvis2 입니다.  
@@ -503,7 +503,7 @@ class MainActivity : AppCompatActivity() {
                 NetworkViewModel.NetworkStatus.CONNECT_NETWORK -> {
                     // TODO: 네트워크가 연결되었을 때 동작 넣기
                 }
-                // 네트워크 차단 및 Error, Disconnect 의 경우 NetworkFragment 보여줌
+                // 네트워크 차단 및 Error, Disconnect 의 경우 NetworkFragment 보여줌(현재 Network상태를 NetworFragment 에 넣어줍니다.)
                 else -> {
                     navController.navigate(
                         NavigationDirections.actionGlobalNetworkFragment(it)
