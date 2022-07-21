@@ -435,3 +435,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     }
 }
 ```
+
+### 마치며
+이번 포스팅에서는 Paging3를 사용하는 이유와 Clean Architecture에서 Paging3를 사용하는 방법에 대하여 알아보았습니다.  
+페이징이란 대량의 데이터를 한 번에 불러오는 것이 아니라 필요한 만큼 ""_일부분을 나눠서 가져오는 것_"" 이라는 점을 기억하시면 되겠습니다.  
+해당 프로젝트의 전체 코드는 [Naver Open API 영화 검색](https://github.com/narvis2/MovieSearchApp)에서 확인하실수 있습니다.
