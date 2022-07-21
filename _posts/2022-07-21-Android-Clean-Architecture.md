@@ -22,6 +22,7 @@ tags: [android, cleanArchitecture, MVVM]
 > Jetpack Navigation을 통해 Single Activity를 적용하였으며, 이렇게한 이유 역시 재직중인 회사에서 사용하는 기술을 과제의 주제에 벗어나지 않는 선에서 모두 보여드리고자 선택하였습니다.
 8. StateFlow, Coroutine Channel을 사용하였습니다.
 > Clean Architecture에서 LiveData 사용시 View의 의존성이 없는 Domain, Data Layer에서는 비동기 방식으로 데이터를 처리하기에 자연스러운 방법이 없기에 StateFlow, Coroutine Channel 을 사용하였습니다.
+> **_참고_** : 해당 포스팅에 StateFlow, Channel 에 관하여 자세히 정리 했습니다. 👉🏿 [StateFlow, Channel](https://narvis2.github.io/posts/Android-StateFlow/)
 9. Dagger-Hilt 를 통한 DI(Dependency Injection) 관리를 적용하였습니다.
 > Domain Layer, Data Layer 와 최종적으로 Presentation Layer의 의존성 관리를 위해 Hilt 를 사용하였습니다.
 
@@ -553,6 +554,7 @@ fun TextView.htmlToString(text: String) {
 }
 ```
 - 2️⃣ FlowObserver : Flow를 Activity/Fragment 의 Lifecycler에 맞게 Observing 하기위해 만든 클래스 입니다. [깃허브](https://github.com/narvis2/MovieSearchApp/blob/main/app/src/main/java/com/example/moviesearchapp/utils/FlowObserver.kt)
+- 해당 포스팅에 FlowObserver에 관하여 자세히 설명했습니다. 👉🏿 [StateFlow, Channel](https://narvis2.github.io/posts/Android-StateFlow/)
   
 ``` kotlin
 // FlowObserver -> lifecycle 이 onStart가 되면 구독 시작, onStop이 되면 구독 취소
