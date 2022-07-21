@@ -353,3 +353,5 @@ Caught exception -> java.lang.IllegalStateException: Check failed.
 Coroutin Flow는 emit 을 통해 값을 보내며 collect를 통해 값을 전달받고 또한 Coroutine Flow는 **_Cold Stream이기에 값을 공유할 수 없다._** 정도만 기억해주시면 되겠습니다.  
 Cold Stream 이기에 값을 공유할 수 없다는 말의 의미는 예를 들어 하나의 flow를 2개의 activity나 fragment에서 각각 collect 할때 flow 의 값이 서로 다를 수 있다는 이야기 입니다.  
 다음 포스팅에서는 이런 문제를 해결하기 위해 나온 Hot Stream 인 SharedFlow, StateFlow, 또한 나아가 Coroutine Channel 에 대하여 알아보겠습니다.  
+
+[StateFlow, SharedFlow, Coroutine Cannel에 대하여](https://narvis2.github.io/posts/Android-StateFlow/)

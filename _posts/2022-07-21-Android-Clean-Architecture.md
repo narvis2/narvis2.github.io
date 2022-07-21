@@ -8,6 +8,10 @@ tags: [android, cleanArchitecture, MVVM]
 
 안녕하세요. Narvis2 입니다.  
 이번 포스팅에서는 **_"Naver Open API를 이용한 영화 검색"_** 어플에 사용된 기술과 프로젝트에 대하여 알아보겠습니다.  
+  
+재직중인 회사에서 사용하는 기술을 과제의 주제에 벗어나지 않는 선에서 모두 보여드리고 노력하였습니다.  
+  
+해당 프로젝트 전체 코드 👉🏿 [Naver Open API를 이용한 영화 검색 어플](https://github.com/narvis2/MovieSearchApp)
 
 ## 앱 기능
 ---
@@ -17,7 +21,6 @@ tags: [android, cleanArchitecture, MVVM]
 3. RecyclerView에 썸네일 이미지, 제목, 평점, 연도, 감독, 출연 배우를 표기하고 Item Click 시 해당 API Response에 있는 link를 바탕으로 WebView를 띄워줍니다.
 4. 해당 어플은 Network가 끊겼을 때 할 수 있는 동작이 없기 때문에 ConnectivityManager를 통해 Network Callback을 받아 네트워크가 끊겼을 때 네트워크가 끊겼다는 화면을 보여줍니다. 네트워크가 연결되면 자동으로 해당 화면이 사라지고 어플을 계속 컨트롤 할 수 있습니다.
 5. 프로젝트의 패턴은 Claen Architecture MVVM 을 채택하였습니다.
-> 굳이 Clean Architecture MVVM 을 선택한 이유는 재직중인 회사에서 사용하는 기술을 과제의 주제에 벗어나지 않는 선에서 모두 보여드리고 싶어서 선택하였습니다.
 6. AAC ViewModel 을 사용하여 앱 구성요소 변경에도 앱의 데이터와 내용이 사라지지 않게 설계하였습니다.
 7. Single Activity를 적용하였습니다.
 > Jetpack Navigation을 통해 Single Activity를 적용하였으며, 이렇게한 이유 역시 재직중인 회사에서 사용하는 기술을 과제의 주제에 벗어나지 않는 선에서 모두 보여드리고자 선택하였습니다.
@@ -26,8 +29,6 @@ tags: [android, cleanArchitecture, MVVM]
 > **_참고_** : 해당 포스팅에 StateFlow, Channel 에 관하여 자세히 정리 했습니다. 👉🏿 [StateFlow, Channel](https://narvis2.github.io/posts/Android-StateFlow/)
 9. Dagger-Hilt 를 통한 DI(Dependency Injection) 관리를 적용하였습니다.
 > Domain Layer, Data Layer 와 최종적으로 Presentation Layer의 의존성 관리를 위해 Hilt 를 사용하였습니다.
-
-### 해당 프로젝트 Github -> [Naver Open API를 이용한 영화 검색 어플](https://github.com/narvis2/MovieSearchApp)
 
 ## Clean Architecture 란
 ---
@@ -54,6 +55,7 @@ tags: [android, cleanArchitecture, MVVM]
 - 아래에서 자세히 알아보겠습니다.
 ### 1. Domain Layer
 ![Desktop View](/assets/img/architecture/domain-layer-structure.png){: width="50%", height="50%" }
+- 어떤 모듈에도 의존적이지 않는 독립적인 Module 입니다.(최상위 모듈)
 - 비즈니스 로직을 처리하는 곳 입니다.
 - Data Layer에 접근하기 위한 interface를 갖고 있습니다. (Repository interface정의)
 - 안드로이드에 의존성을 가지지 않은 순수 Java 및 Kotlin 코드로만 구성됩니다.
@@ -112,6 +114,7 @@ data class MovieInfoModel(
 ### 2. Data Layer
 ![Desktop View](/assets/img/architecture/data-layer-structure.png){: width="50%", height="50%" }
 - Domain Layer에서 정의한 Repository 구현제, dataSource, Retrofit API 정의, Room DB 정의, Mapper, API Response Model 등으로 구성됩니다.
+- Domain Layer에 대한 의존성을 가지고 있습니다.
 - 데이터 베이스(Local DB)와 서버(Remote)의 통신을 담당합니다.
 - ✔️ **Data Model** : API 통신을 통해서 받게되는 Response 나 Local DB를 통해 얻게되는 Entity를 정의합니다.
 > **_참고_** : 다음은 Naver 검색 API 를 통해 검색 결과 Response 입니다. 👇
@@ -475,7 +478,8 @@ class MovieApplication : Application() {
 - BackGround Thread 에서 DiffUtil 을 사용하여 미세 조정한 후 데이터를 load하므로 UI Thread에 새 항복을 추가하는 동안 문제가 발생하지 않습니다.
 - Root Click Listener를 포함하고 있고 Domain Layer에 정의한 MovieInfoModel을 데이터로 사용합니다. 
 - 해당 Adapter 또한 Data Binding을 통해 View에 데이터를 연결해주고 있습니다.
-> **_참고_** : [깃허브](https://github.com/narvis2/MovieSearchApp/blob/main/app/src/main/java/com/example/moviesearchapp/view/fragment/home/adapter/MovieInfoAdapter.kt)
+> - **_참고_** : [깃허브](https://github.com/narvis2/MovieSearchApp/blob/main/app/src/main/java/com/example/moviesearchapp/view/fragment/home/adapter/MovieInfoAdapter.kt)
+> - **_참고_** : 해당 포스팅에 Paging3에 관하여 자세히 정리 했습니다. 👉🏿 [Paging3에 대하여](https://narvis2.github.io/posts/Android-Paging3/)
 
 - ✔️**Utils**
 - 🚩 해당 프로젝트에서는 데이터 바인딩을 위한 BindingAdapters, Flow를 Lifecycler에 맞게 Observing하기 위해 만들어진 FlowObserver, keyBoardUtils, Listener, TimberDebugTree 등이 포함되어 있습니다.

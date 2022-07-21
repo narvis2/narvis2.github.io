@@ -11,6 +11,8 @@ tags: [android, paging3]
 API에 따라 limit(한 번에 보여줄 데이터의 개수 제한), offset(데이터의 인덱스)등으로 페이징이 처리 되어 있습니다.  
 해당 포스팅에서는 Naver Open API 를 기준으로 설명 드리겠습니다.  
 
+해당 프로젝트의 전체 코드입니다. 👉🏿 [영화검색앱](https://github.com/narvis2/MovieSearchApp)
+
 ## Paging 3 사용 이유
 - 페이징 된 데이터의 메모리 캐싱으로 시스템 리소스를 효율적으로 사용할 수 있습니다.
 - 요청 중복 제거 기능을 지원합니다.
@@ -23,7 +25,7 @@ API에 따라 limit(한 번에 보여줄 데이터의 개수 제한), offset(데
 - 위의 그림을 참고하여 설명하겠습니다.
 ### 1. Repository Layer
 - PagingSource : 각 페이지에서 데이터를 얻는 방법을 정의합니다. (Local DB에서 데이터를 저장하거나 서버에서 받아오도록 설정이 가능합니다.) 즉, 데이터를 가져오는 방법을 정의합니다.
-- RemoteMediaor :  로컬 데이터베이스를 이용해 네트워크 데이터를 캐싱하기 위해 사용됩니다.(7월 29일 기준 실험용으로 나와있으며 향후 변경될 수 있습니다.)
+- RemoteMediaor :  로컬 데이터베이스를 이용해 네트워크 데이터를 캐싱하기 위해 사용됩니다.
   
 ### 2. ViewModel Layer
 - PagingConfig를 바탕으로 PagingSource에서 데이터를 얻어 PagingData를 만들고 Flow형으로 UI에 넘겨줍니다.
