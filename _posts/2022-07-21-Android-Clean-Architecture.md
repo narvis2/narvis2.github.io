@@ -19,6 +19,7 @@ tags: [android, cleanArchitecture, MVVM]
 2. 검색한 내용을 RecyclerView를 통해 보여주며 Paging3를 사용하여 Page에 따라 list를 추가로 불러와 보여줍니다. 
 > **_참고_** : 해당 포스팅에 Paging3에 관하여 자세히 정리 했습니다. 👉🏿 [Paging3에 대하여](https://narvis2.github.io/posts/Android-Paging3/)
 3. RecyclerView에 썸네일 이미지, 제목, 평점, 연도, 감독, 출연 배우를 표기하고 Item Click 시 해당 API Response에 있는 link를 바탕으로 WebView를 띄워줍니다.
+> **_참고_** : 해당 프로젝트에서는 Image Load를 위해 Glide를 사용합니다. 다음은 Glide 관련 포스팅입니다. 👉🏿 [Glide Image 처리](https://narvis2.github.io/posts/Android-Glide/)
 4. 해당 어플은 Network가 끊겼을 때 할 수 있는 동작이 없기 때문에 ConnectivityManager를 통해 Network Callback을 받아 네트워크가 끊겼을 때 네트워크가 끊겼다는 화면을 보여줍니다. 네트워크가 연결되면 자동으로 해당 화면이 사라지고 어플을 계속 컨트롤 할 수 있습니다.
 > **_참고_** : 해당 포스팅에 ConnectivityManager를 통한 Netwrok 관리에 관하여 자세히 정리 했습니다.  
 > 👉🏿 [Netwrok 관리](https://narvis2.github.io/posts/Android-Network/) 
@@ -501,7 +502,8 @@ class MovieApplication : Application() {
 - 🚩 해당 프로젝트에서는 데이터 바인딩을 위한 BindingAdapters, Flow를 Lifecycler에 맞게 Observing하기 위해 만들어진 FlowObserver, keyBoardUtils, Listener, TimberDebugTree 등이 포함되어 있습니다.
 - 1️⃣ BindingAdpaters [깃허브](https://github.com/narvis2/MovieSearchApp/blob/main/app/src/main/java/com/example/moviesearchapp/utils/BindingAdapters.kt)
 > - 서버에서 받아오는 image Url을 ImageView에 넣어주기 위해 Glide를 사용하는 함수, Html 을 String으로 바꿔주는 함수, 중복 클릭 방지 함수 등이 포함되어 있습니다.
-- image Load 함수 👇
+- > **_참고_** : 다음은 Glide에 대해 자세한 내용을 기록한 포스팅입니다. 👉🏿 [Glide Image 처리](https://narvis2.github.io/posts/Android-Glide/)
+- image Load 함수 👇 
 ``` kotlin
 @BindingAdapter(value = ["loadImage", "placeHolder", "error"], requireAll = false)
 fun ImageView.loadImage(
