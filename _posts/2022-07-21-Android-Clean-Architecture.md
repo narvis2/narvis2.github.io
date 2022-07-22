@@ -20,6 +20,8 @@ tags: [android, cleanArchitecture, MVVM]
 > **_참고_** : 해당 포스팅에 Paging3에 관하여 자세히 정리 했습니다. 👉🏿 [Paging3에 대하여](https://narvis2.github.io/posts/Android-Paging3/)
 3. RecyclerView에 썸네일 이미지, 제목, 평점, 연도, 감독, 출연 배우를 표기하고 Item Click 시 해당 API Response에 있는 link를 바탕으로 WebView를 띄워줍니다.
 4. 해당 어플은 Network가 끊겼을 때 할 수 있는 동작이 없기 때문에 ConnectivityManager를 통해 Network Callback을 받아 네트워크가 끊겼을 때 네트워크가 끊겼다는 화면을 보여줍니다. 네트워크가 연결되면 자동으로 해당 화면이 사라지고 어플을 계속 컨트롤 할 수 있습니다.
+> **_참고_** : 해당 포스팅에 ConnectivityManager를 통한 Netwrok 관리에 관하여 자세히 정리 했습니다.  
+> 👉🏿 [Netwrok 관리](https://narvis2.github.io/posts/Android-Network/) 
 5. 프로젝트의 패턴은 Claen Architecture MVVM 을 채택하였습니다.
 6. AAC ViewModel 을 사용하여 앱 구성요소 변경에도 앱의 데이터와 내용이 사라지지 않게 설계하였습니다.
 7. Single Activity를 적용하였습니다.
