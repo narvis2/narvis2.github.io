@@ -2,7 +2,7 @@
 title: Android Process 및 Thread
 author: Narvis2
 date: 2022-07-14 15:20:00 +0900
-categories: [Android]
+categories: [Android, Process]
 tags: [android, process, thread]
 ---
 

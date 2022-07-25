@@ -2,7 +2,7 @@
 title: Android Handler, Looper 에 관하여
 author: Narvis2
 date: 2022-07-14 11:44:00 +0900
-categories: [Android]
+categories: [Android, Handler]
 tags: [android, thread, handler, looper]
 ---
 

@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 ## 구성요소 변경시(화면 회전 등..) Activity 의 생명주기는??
 --- 
 - 화면 회전 등 구성요소가 변경되면 Activity는 다음 순서로 lifecycle Callback Method를 호출합니다.  
-onPause() -> onStop() -> onDestory() -> onStart() -> onResumse()  
+onPause() -> onStop() -> onDestory() -> onCreate() -> onStart() -> onResumse()  
 즉, 현재 Activity를 Destory 하고 새로 생성하기 때문에 기존 데이터를 유지하기 위해서는 onSaveInstanceState()에서 Bundle에 데이터를 저장하도록 해야합니다.  
 이러한 점 때문에 요즘 Android 개발에서는 AAC ViewModel 즉, Android Architecture Components ViewModel 을 사용하여 구성요소 변경시에도 데이터가 살아있도록 합니다. AAC ViewModel에 대한 개념은 다음에 따로 작성하겠습니다.
 
