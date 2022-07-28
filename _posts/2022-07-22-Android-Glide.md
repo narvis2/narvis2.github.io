@@ -22,7 +22,7 @@ Glide는 **_어떠한 종류의 이미지이더라도 빠르고 부드럽게 스
 - 디스크 캐시
 > - Glide는 기본적으로 디스크 캐싱을 수행합니다. 기본적인 개념은 메모리 캐시와 같습니다.
 > - .diskCacheStrategy()를 사용하여 캐싱에 관한 설정이 가능합니다.
->> - DiskCacheStrategy.ALL : 모든 이지를 캐싱합니다.
+>> - DiskCacheStrategy.ALL : 모든 이미지를 캐싱합니다.
 >> - DiskCacheStrategy.AUTOMATIC : default 값이며, RESOURCE 를 기반으로 전략적인 캐싱을 수행합니다.
 >> - DiskCacheStrategy.DATA : 원본 이미지를 캐싱합니다.
 >> - DiskCacheStrategy.RESOURCE : 해상도를 줄인 이미지만 캐싱합니다.
