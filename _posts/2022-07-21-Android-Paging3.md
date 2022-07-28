@@ -246,6 +246,15 @@ class MovieInfoAdapter : PagingDataAdapter<MovieInfoModel, MovieInfoAdapter.Movi
 ### Fragment 구현 
 - ViewModel로 부터 Flow<PagingData<MovieInfoModel>>를 받아 PagingDataAdapter에 넘겨줍니다.
 - PagingAdapter의 loadState를 받아와 상황별로 UI를 컨트롤 합니다.
+> **_참고_** 🚩 loadState 상태 설명
+> - LoadState.NotLoading : 로딩이 끝나고 Error 없이 데이터를 보여주는 상태입니다.
+> - LoadState.Loading : 데이터가 load 되고 있으며, 사용자에게 진행 상황을 보여줄 수 있습니다.
+> - LoadState.Error : 데이터 load 중 error 발생한 상태입니다.
+> - CombinedLoadStates.refresh : PagingData 의 Load 가 끝난 상태입니다.
+> - CombinedLoadStates.append : PagingData 의 Load 가 끝난 상태입니다.
+> - endOfPaginationReached : Load 가능 여부, true 면 더 이상 Load 를 하지 못합니다.
+
+
 ``` kotlin
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
