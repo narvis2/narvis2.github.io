@@ -6,15 +6,15 @@ categories: [Android, Lifecycle]
 tags: [android, fragment, lifecycle]
 ---
 이전 [Activity Lifecycle 정리](https://narvis2.github.io/posts/Android-Activity-Lifecycle/) 포스팅에 이어 이번에는 Fragment 의 Lifecycle에 대해 알아보겠습니다.
-## Android Fragment Lifecycle 동작 순서
+## 🚩 Android Fragment Lifecycle 동작 순서
 ---
 이번에도 [구글 공식 홈페이지](https://developer.android.com/guide/fragments/lifecycle)에 나와있는 이미지를 바탕으로 살펴보겠습니다.  
 해당 이미지를 참고하여 Fragment Lifecycle 의 순서를 보면 Fragment 생성시 onAttach() -> onCreate() -> onCreateView() -> onViewCreate() -> onViewStateRestored() -> onStart() -> onResume() 순으로 Callbak이 호출되며, Fragment의 구성요소 변경 혹은 일부가 사라지면 onPause() -> onStop() ->
-onSaveInstanceState() -> onDestoryView() -> onDestory() -> onDetach() 순으로 Callback이 호출되어 onDetach() 이후로 Fragment가 완전이 소멸되고 Activity와의 연결이 끊어집니다.
+onSaveInstanceState() -> onDestroyView() -> onDestroy() -> onDetach() 순으로 Callback이 호출되어 onDetach() 이후로 Fragment가 완전이 소멸되고 Activity와의 연결이 끊어집니다.
 
 ![Desktop View](/assets/img/lifecycle/fragment-view-lifecycle.png){: width="100%" }
 
-## Fragment Lifecycle Callback Method 역할
+## 🚩 Fragment Lifecycle Callback Method 역할
 ---
 **각 Callback Method 의 역할에 관하여 살펴보겠습니다.**
 ### 1. onAttach()
@@ -87,21 +87,38 @@ override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 - Fragment가 완전히 사라지면 호출된다. (완전한 정지)
 - Fragment가 더 이상 화면에 보여지지 않게되면 Fragment와 View의 Lifecycle은 **_CREATED_** 상태가 되고, onStop() Callback 함수가 호출된다.
 
-### 10. onDestoryView()
+### 10. onDestroyView()
 - Fragment와 관련된 View가 제거될때 호출된다.
 - 모든 exit animation 과 transition이 완료되고, Fragment가 화면으로부터 벗어났을 경우 Fragment View 의 Lifecycle 은 **_DESTROYED_**가 된다.
 - 이 시점부터는 getViewLifecycleOwnerLiveData() 의 리턴값으로 null 이 반환된다.
-- Activity에서 Fragment를 생성했을 당시 addToBackStack()을 요청했을 경우 onDestory()를 호출하지 않고, 인스턴스가 저장되어 있다가 Fragment를 다시 부를 때 onCreateView()를 실행하여 다시 화면에 보여지게 한다.
+- Activity에서 Fragment를 생성했을 당시 addToBackStack()을 요청했을 경우 onDestroy()를 호출하지 않고, 인스턴스가 저장되어 있다가 Fragment를 다시 부를 때 onCreateView()를 실행하여 다시 화면에 보여지게 한다.
 > **주의!!** 해당 시점에서는 Garbage collection에 의해 수거될 수 있도록 Fragment View에 대한 모든 참조가 제거되어야 한다.
 
-### 11. onDestory()
+### 11. onDestroy()
 - Fragment 가 제거되거나 FragmentManager가 destory 됐을 경우, Fragment의 Lifecycle은 **_DESTROYED_** 상태가 되고, onDestroy() 콜백 함수가 호출된다.
 - View가 제거된 후 Fragment 가 완전히 소멸되기 전에 호출된다.
 
 ### 12. onDetach()
 - Fragment가 완전히 소멸되고 Activity와의 연결도 끊어질 때 호출된다.
 
+
+
+## 🚩 onResume() 이후에 홈 버튼을 누를 경우
+---
+- onResume() 이후부터 홈 버튼을 누르면 Fragment의 Lifecycle 은 onPause() -> onStop() -> onSaveInstanceState() 까지만 호출되고, onDestroyView()부터 그 이후의 Lifecycle Callback은 호출되지 않습니다. 또한 홈에서 다시 해당 Fragment로 돌아오는 경우 onResume()이 호출됩니다.
+> 즉, onResume() -> 홈 버튼 클릭 -> onPause() -> onStop() -> onSaveInstanceState() -> 다시 해당 Fragment로 넘어옴 -> onResume() 
+
+
+## 🚩 Jetpack Navigation
+---
+- Jetpack Navigation의 경우 Replace 형식으로 동작합니다.
+- 'A'Fragment 위에 'B'Fragment가 올라오는 경우 Lifecycle 👇
+> 1. 'A' Fragment는 onDestroyView()까지만 호출되고 onDestroy(), onDetach()는 호출되지 않습니다. 
+> 2. 'B' Fragment가 종료되면 'A' Fragment는 onCreateView() -> onViewCreated() -> onViewStateRestored() -> onStart() -> onResume() 순으로 호출됩니다. 즉, 'A'Fragment의 onAttach() 와 onCreate() 는 호출되지 않습니다.
+
+
 ## 마지며..
+---
 Fragment는 Add 와 replace 방식이 있는데 동작하는 방식이 다릅니다. 저는 요즘 개발할때 androidx jetpack navigation component를 사용하여 Single Activity로 개발합니다. 현재 재직중인 회사 또한 Single Activity를 사용중이며, navigation component를 사용하면 fragment 간 전환이 매우 편리해집니다. 물론 navigation의 단점 또한 존재합니다. navigation component에 관해서는 추후 포스팅을 따로 올려 다뤄보도록 하겠습니다.  
 
 ---
