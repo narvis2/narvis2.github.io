@@ -11,7 +11,7 @@ tags: [react-native, hook]
 React 에는 use로 시작하는 다양한 함수가 내장되어 있는데, 이 함수들을 Hook이라고 부릅니다.  
 **Hook을 사용하여 상태 관리, 최적화, 컴포넌트 작동 흐름 관리 등 다양한 기능을 구현할 수 있습니다.**
 
-## Hook 의 규칙
+## 🚩 Hook 의 규칙
 ---
 1. `Hook`은 Component 최상위 레벨에서만 사용해야 합니다.
 > **_주의❗️_** `Hook`은 조건문이나 반복문 또는 중첩 함수에서 호출하면 안됩니다.
@@ -48,7 +48,7 @@ function App() {
 ```
 - useState 를 사용해 Boolean 뿐만 아니라 숫자, 객체, 배열 등의 형태를 가진 상태를 관리할 수도 있습니다.
 
-## useEffect - 특정 값을 Observing 하는 함수
+## 🚩 useEffect - 특정 값을 Observing 하는 함수
 ---
 - Component에서 특정 상태가 바뀔 때마다 원하는 코드를 실행할 수 있는 함수
 - Component가 마운트(가장 처음 화면에 나타남)되거나 언마운트(화면에서 컴포넌트가 사라짐)될 때 원하는 코드를 실행할 수도 있습니다.
@@ -76,7 +76,7 @@ function App() {
 ```
 - useEffect에 등록한 함수는 두 번째 인자의 배열 안에 넣은 값이 바뀔 때도 호출되지만, Component가 가장 처음 렌더링됐을 때도 호출됩니다.
 
-## useNavigation - 내비게이션 Hooks
+## 🚩 useNavigation - 내비게이션 Hooks
 ---
 - Screen 으로 사용되고 있지 않은 컴포넌트에서도 `navigation`객체를 사용할 수 있습니다.
 
@@ -96,7 +96,7 @@ function Test() {
 };
 ```
 
-## useRoute - 내비게이션 Hooks
+## 🚩 useRoute - 내비게이션 Hooks
 ---
 - useNavigation과 비슷하게, Screen이 아닌 Component에서 `route`객체를 사용할 수 있게 됩니다.
 > Android 에서 Fragment/Activity 간 데이터를 주고 받는다 생각하면 됩니다.
@@ -111,7 +111,7 @@ function Test() {
 }
 ```
 
-## useFocusEffect - 내비게이션 Hooks
+## 🚩 useFocusEffect - 내비게이션 Hooks
 ---
 - 화면에 포커스가 잡혔을 때 특정 작업을 할 수 있게 하는 `Hook`입니다.
 - 다른 화면을 열었다가 돌아왔을 때 특정 작업을 하고 싶다면 `useFocusEffect` `Hook`을 사용해야 합니다.
