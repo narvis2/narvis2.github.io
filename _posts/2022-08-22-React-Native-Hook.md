@@ -209,6 +209,7 @@ function CalendarScreen() {
   
 ``` javascript
 const onPressDate = () => {
+    // 버튼 클릭 시 useState 함수를 2개 사용
     setMode('date');
     setVisible(true);
 };
