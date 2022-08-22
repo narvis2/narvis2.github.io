@@ -161,6 +161,93 @@ function HomeScreen() {
 };
 ```
 
+## 🚩 useMemo - 메모리 최적화
+---
+- 메모이제이션해 최적화할 수 있습니다.
+> **메모이제이션** : 동일한 계산을 반복해야 할 때 불필요한 연산을 제거하기 위해 이전에 계산한 값을 재사용해 처리를 최적화하는 것을 의미합니다.
+- 예제 👇
+  
+``` javascript
+const value = useMemo(() => compute(a, b), [a, b]);
+```
+- 설명 👉 `a`, `b`의 값이 변경될 때만 값이 연산됩니다.
+- 전체 예제 👇
+  
+``` javascript
+import {fromat} from 'date-fns';
+import React, {useContext, useMemo, useState} from 'react';
+import CalendarView from '../components/CalendarView';
+import FeedList from '../components/FeedList';
+import LogContext from '../contexts/LogContext';
+
+function CalendarScreen() {
+    const {logs} = useContext(LogContext);
+    const [selectedDate, setSelectedDate] = useState(format(new Date(), 'yyyy-MM-dd'),);
+
+    const markedDates = useMemo( () =>
+        logs.reduce((acc, current) => {
+            const formattedDate = format(new Date(current.date), 'yyyy-MM-dd');
+            acc[formattedDate] = {marked: true};
+
+            return acc;
+        }, {}),
+        [logs],
+    );
+}
+```
+- 설명 👉 logs 배열이 바뀔 때만 logs.reduce 함수가 수행됩니다.
+
+## 🚩 useReducer - 여러가지 상태를 관리
+---
+- 상태를 관리할 때 사용할 수 있는 또 다른 Hook 함수 입니다.
+- state: 상태
+- action: 변화를 정의하는 객체
+- reducer: state와 action을 파라미터로 받아와 그다음 상태를 반환하는 함수입니다.
+- dispatch: action을 발생시키는 함수
+- `useState`를 여러번 사용하는 상황에서 사용하면 유용할 수 있습니다. (무조건 이 Hook을 사용할 필요는 없음)
+- **각기 다른 상태를 동시에 업데이트하는 상황에서 `useReducer`를 고민해보면 좋습니다.** 👇
+  
+``` javascript
+const onPressDate = () => {
+    setMode('date');
+    setVisible(true);
+};
+```
+- 카운터를 useReducer로 구현하는 예제 👇
+  
+``` javascript
+const initialState = {value: 1};
+
+// state: 현재 상태, action: dispatch 함수의 인자로 넣은 액션 객체를 가리킵니다.
+function reducer(state, action) {
+    swich (action.type) {
+        case 'increase':
+            return {value: state.value + 1};
+        case 'decrease':
+            return {value: state.value - 1};
+        default:
+            throw new Error('Unhandled action type');
+    }
+}
+
+function Counter() {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    const onIncrase = () => dispatch({type: 'increase'});
+    const onDecrease = () => dispatch({type: 'decrease'});
+
+    return (...)
+}
+```
+- 상태를 업데이트하는 로직을 Component 바깥에 구현할 수 있다는 장점이 있습니다.
+- dispatch라는 함수 하나로 다양하게 업데이트할 수 있기 때문에 Context와 함께 사용하면 유용합니다.
+> - useReducer의 첫 번째 인자 : reducer 함수를 넣습니다. 
+> - useReducer의 두 번째 인자 : 상태의 초기값 입니다.
+> - 함수의 결과 물의 첫 번째 원소 : 현재 상태
+> - 함수의 결과 물의 두 번째 원소 : dispatch 함수
+> - reducer에서 반환하는 값 : 그다음 업데이트할 값으로 사용
+
+
 ## 마치며
 ---
 이번시간에는 React-Native Hook에 관하여 알아보았습니다.  
