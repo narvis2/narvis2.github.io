@@ -173,3 +173,7 @@ function FeedsScreen() {
 
 export default FeedsScreen;
 ```
+
+## 🚩 마치며
+이번 포스팅에서는 Context API에 대하여 알아보았습니다.  
+Context API는 서로 다른 화면간에 데이터를 공유하기 위해 사용하며 Android 의 Fragment간 데이터 공유에 사용하는 activityViewModels()를 생각하면 쉽습니다.  
