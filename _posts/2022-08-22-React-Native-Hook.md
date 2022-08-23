@@ -248,6 +248,50 @@ function Counter() {
 > - 함수의 결과 물의 두 번째 원소 : dispatch 함수
 > - reducer에서 반환하는 값 : 그다음 업데이트할 값으로 사용
 
+## 🚩 useRef - 컴포넌트 레퍼런스 선택
+- 함수 `Componet`에서 `Component`의 레퍼런스를 선택할 수 있게 하는 `Hook`입니다.
+> **✋** 제목을 입력하고 `Enter`를 누르면 하단 내용으로 포커스를 이동시키고 싶다면 `TextInput`의 레퍼런스를 선택하여 포커스를 해줘야 합니다.
+- `ref`를 생성하여 `TextInput`의 파라미터로 지정해주면 원하는 `Component`의 레퍼런스를 선택할 수 있습니다.
+> **참고🔍** `TextInput`의 레퍼런스
+>> - focus() : `TextInput`에 포커스를 잡아줍니다.
+>> - blur() : `TextInput`에 포커스를 해제합니다.
+>> - clear() : `TextInput`의 내용을 모두 비웁니다.
+>> - current : `useRef`로 선택한 레퍼런스는 `.current` 값을 조회하여 확인할 수 있습니다.
+- onSubmitEditing 속성을 통해 Enter 를 눌렀을 때 내용 TextInput으로 포커스하는 예제 👇
+  
+``` javascript
+import React, {useRef} from 'react';
+import {View, StyleSheet, TextInput} from 'react-native';
+
+function WriteEditor({title, body, onChnageTitle, onChangeBody}) {
+    const bodyRef = useRef()
+
+    return (
+        <View>
+            <TextInput
+                placeholder="제목을 입력하세요."
+                style={styles.titleInput}
+                returnKeyType="next"
+                onChangeText={onChnageTitle}
+                value={title}
+                onSubmitEditing={() => {
+                    bodyRef.current.focus()
+                }}
+            />
+            <TextInput
+                plcaeholder="당신의 오늘을 기록해보세요."
+                style={styles.bodyInput}
+                multiline
+                textAlignVertical="top"
+                onChangeText={onChangeBody}
+                value={body}
+                ref={bodyRef}
+            />
+        </View>
+    );
+}
+```
+
 
 ## 마치며
 ---
