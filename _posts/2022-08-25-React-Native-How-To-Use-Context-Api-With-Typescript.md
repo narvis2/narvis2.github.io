@@ -90,4 +90,5 @@ export function useAuth() {
 ## 🚩 마치며
 --- 
 이번 포스팅에서는 Typescript 에서 Context API 사용하는 방법에 대하여 알아보았습니다.  
-다음 포스팅에서는 `Typescript` 로 `React-Navigations`를 사용하는 방법에 대하여 알아보도록 하겠습니다.
+다음 포스팅에서는 `Typescript` 로 `React-Navigations`를 사용하는 방법에 대하여 알아보도록 하겠습니다.  
+[Typescript로 React-Navigations를 사용하는 방법](https://narvis2.github.io/posts/React-Native-Using-React-Navigation-With-Typescript/)
