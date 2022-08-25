@@ -2,7 +2,7 @@
 title: React-Native Context API
 author: Narvis2
 date: 2022-08-22 16:03:00 +0900
-categories: [React-Native]
+categories: [React-Native, Context]
 tags: [react-native, context-api]
 ---
 
