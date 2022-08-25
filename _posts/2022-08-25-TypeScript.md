@@ -2,7 +2,7 @@
 title: TypeScript
 author: Narvis2
 date: 2022-08-22 13:37:00 +0900
-categories: [TypeScript]
+categories: [React-Native, TypeScript]
 tags: [typescript]
 ---
 
