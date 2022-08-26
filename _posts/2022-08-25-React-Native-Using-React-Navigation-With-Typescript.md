@@ -1,7 +1,7 @@
 ---
 title: Typescript 로 React-Navigations 사용하기
 author: Narvis2
-date: 2022-08-22 16:19:00 +0900
+date: 2022-08-25 16:19:00 +0900
 categories: [React-Native, TypeScript]
 tags: [typescript, react-navigation, react-native]
 ---

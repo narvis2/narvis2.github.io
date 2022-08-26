@@ -1,7 +1,7 @@
 ---
 title: Typescript 에서 Context API 사용하기
 author: Narvis2
-date: 2022-08-22 15:19:00 +0900
+date: 2022-08-25 15:19:00 +0900
 categories: [React-Native, TypeScript]
 tags: [typescript, context-api, react-native]
 ---

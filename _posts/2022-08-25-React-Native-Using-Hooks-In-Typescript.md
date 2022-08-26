@@ -1,7 +1,7 @@
 ---
 title: Typescript 에서 Hook 사용하기
 author: Narvis2
-date: 2022-08-22 13:57:00 +0900
+date: 2022-08-25 13:57:00 +0900
 categories: [React-Native, TypeScript]
 tags: [typescript, hook, react-native]
 ---
