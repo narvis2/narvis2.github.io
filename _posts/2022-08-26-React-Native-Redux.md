@@ -3,7 +3,7 @@ title: React-Native Redux로 전역 상태 관리하기
 author: Narvis2
 date: 2022-08-25 16:19:00 +0900
 categories: [React-Native, Redux]
-tags: [typescript, redux, react-native]
+tags: [redux, react-native]
 ---
 
 안녕하세요. Narvis2 입니다.  
