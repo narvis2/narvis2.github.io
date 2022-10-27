@@ -11,10 +11,10 @@ tags: [react-query, react-native, useQuery, useMutation]
 
 ## 🚩 React-Query
 
-- 🍀 서버의 값을 client 에 가져오거나 Caching, value updating, error handling 등 **_비동기 과정을 더욱 편하게_** 하는데 사용됨
+- 🍬 서버의 값을 client 에 가져오거나 Caching, value updating, error handling 등 **_비동기 과정을 더욱 편하게_** 하는데 사용됨
 - 서버와 클라이언트를 분리합니다.
 
-### 1. React-Query 장점
+### 🍀 1. React-Query 장점
 
 - 캐싱
   - `get`을 한 데이터에 대해 `update`를 하면 자동으로 `get`을 다시 수행한다.
@@ -26,7 +26,7 @@ tags: [react-query, react-native, useQuery, useMutation]
 - 비동기 과정을 선언적으로 관리가 가능하다.
 - react 의 `Hook`과 사용하는 구조가 비슷하다.
 
-### 2. useQuery
+### 🍀 2. useQuery
 
 - 데이터를 `get` 하기 위한 `api` (post, update 는 `useMutation` 을 사용)
 - 첫 번째 파라미터
@@ -86,7 +86,7 @@ tags: [react-query, react-native, useQuery, useMutation]
     - > false일 때는 Component가 다시 마운트되어도 재요청하지 않음
     - > 'always'일 때는 데이터의 유효 여부와 관계없이 무조건 재요청함
   - `onSuccess` 👉 (data: Data) => void 타입의 함수를 설정, 데이터 요청이 성공하고 나서 특정 함수를 호출하고 싶을 때 사용
-  - `onError` 👉 (error: Error) => void 타입의 함수를 설정, 데이터 요청의 성공 여부와 관계없이 요청이 끝나면 특정 함수를 호출하도록 설정
+  - `onError` 👉 (error: Error) => void 타입의 함수를 설정, 데이터 요청이 실패하고 나서 특정 함수를 호출하고 싶을 때 사용
   - `onSettled` 👉 (data?: Data, error?: Error) => void 타입의 함수를 설정, 데이터 요청의 성공 여부와 관계없이 요청이 끝나면 특정 함수를 호출하도록 설정
   - `initialData` 👉 Data | () => Data 타입의 값을 설정, `Hook` 에서 사용할 데이터의 초깃값을 지정하고 싶을 때 사용
   - `refetchOnWindowFocus` 👉 `React-Query`는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행함, 그 재실행 여부 옵션
@@ -149,7 +149,7 @@ const Todo = () => {
 };
 ```
 
-### 3. useQueries
+### 🍀 3. useQueries
 
 - `useQuery`를 비동기로 여러개 실행할 경우 사용
 - `promise.all`과 마찬가지로 하나의 배열에 각 `Query`에 대한 상태 값이 객체로 들어옴
@@ -200,4 +200,93 @@ const result = useQueries([
     queryFn: () => api.getSpellInfo(riot.version),
   },
 ]);
+```
+
+### 🍀 4. useMutation
+
+- 값을 바꿀 때 사용하는 api
+- 데이터를 생성(`POST`), 수정(`UPDATE`), 삭제(`DELETE`)할 떄 사용하는 `Hook`
+- **_특정 함수에서 우리가 원하는 때에 직접 요청을 시작하는 형태_**
+- 요청 관련 상태의 관리와 요청 처리 전/후로 실행할 작업을 쉽게 설정할 수 있음
+- 첫 번쨰 인자 👉 `Promise`를 반환하는 함수
+- 두 번째 인자 👉 **_이 작업이 처리되기 전후로 실행할 함수를 넣음_**(생략가능)
+  > - onMutate 👉 요청 직전 처리, 여기서 반환하는 값은 하단 함수들의 context로 사용
+  > - onError 👉 데이터 요청이 실패하고 나서 특정 함수를 호출하고 싶을 때 사용
+  > - onSuccess 👉 데이터 요청이 성공하고 나서 특정 함수를 호출하고 싶을 때 사용
+  > - onSettled 👉 데이터 요청의 성공 여부와 관계없이 요청이 끝나면 특정 함수를 호출하도록 설정
+- `return` 값 👉 `useQuery` 와 동일
+  - `mutate` 👇
+    > - 요청을 시작하는 함수
+    > - 첫 번째 인자 👉 API 함수에서 사용할 인자
+    > - 두 번쨰 인자
+    > - {onSuccess, onSettled, onError} 객체, (생략가능)
+    > - option 에 설정된 함수가 먼저 호출되고, mutate 두 번째 파라미터에 넣은 함수가 호출됨
+  - `mutateAsync` 👉 `mutate`와 인자는 동일, 함수를 호출했을 때 반환 값이 `Primse`
+  - `staus` 👉 요청 상태를 문자열로 변환(idle, loading, error, success)
+  - `error` 👉 오류 정보
+  - `data` 👉 요청 성공 시 데이터가 담겨있음
+  - `reset` 👉 **_상태를 모두 초기화하는 함수_**
+
+> **_예제 👇_** `useMutation` 사용
+>
+> >
+
+```javascript
+const Index = () => {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+
+  const loginMutation = useMutation(loginApi, {
+    // variable -> {loginId: xxx, password: xxx}
+    onMutate: variable => {
+      console.log("onMutate", variable);
+    },
+    onError: (error, variable, context) => {
+      // TODO: Error 핸들링
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("success", data, varibles, context);
+    },
+    onSettled: () => {
+      console.log('end);
+    },
+  });
+
+  function onSubmit() {
+    // API 호출에 사용될 인자
+    loginMutation.mutate({loginId: id, password: password});
+  }
+}
+```
+
+> **_예제 👇_** `invalidateQueries`를 사용하여 UPDATE 후 GET 함수를 간단하게 실행
+> `mutation` 함수가 성공할 때, `unique key`로 맵핑된 `GET`함수를 `invalidateQueries`에 넣어주면 됨
+> **_만약 `mutation`에서 `return`된 값을 이용해서 `GET`함수의 파라미터를 변경해야 할 경우 `setQueryData`를 사용_**
+>
+> >
+
+```javascript
+const mutation = useMutation(postTodo, {
+  onSuccess: () => {
+    // postTodo 가 성공하면 todos 로 맵핑된 useQuery API 함수를 실행
+    queryClient.invalidateQueries("todos");
+  },
+});
+
+// 만약 mutation에서 return된 값을 이용해서 GET 함수의 파라미터를 변경해야할 경우 setQueryData를 사용
+const queryClient = useQueryClient();
+
+// data 가 fetchTodoById 로 들어감
+const mutation = useMutation(editTodo, {
+  onSuccess: (data) => {
+    queryClient.setQueryData(["todo", { id: 5 }], data);
+  },
+});
+
+const { status, data, error } = useQuery(["todo", { id: 5 }], fetchTodoById);
+
+mutation.mutate({
+  id: 5,
+  name: "nkh",
+});
 ```
