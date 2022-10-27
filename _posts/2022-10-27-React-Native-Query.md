@@ -58,13 +58,13 @@ tags: [react-query, react-native, useQuery, useMutation]
   - `useQuery`의 3번째 인자로 `Option` 값이 들어가는데 그 `Option`의 `enabled`에 값을 넣으면 `enabled` 값이 `true` 일때 `useQuery`를 실행함
 - `useQuery Option`
   - `enable` 👉 boolean 타입의 값을 설정, 이 값이 false 이면 Component 가 마운트될 때 자동으로 요청하지 않음. **_refetch 함수로만 요청이 시작됨_**
-  - `retry` 👉 boolean | number | (failureCount: number, error: TError) => boolean 타입의 값을 설정
+  - `retry` 👉 boolean or number or (failureCount: number, error: TError) => boolean 타입의 값을 설정
     - 요청이 실패했을 때 재요청할지 설정할 수 있음
     - > 이 값을 `true`로 했을때 👉 실패했을 때 성공할 때까지 계속 반복 요청
     - > 이 값을 `false`로 했을때 👉 실패했을 떄 재요청하지 않음
     - > 이 값을 `3` 으로 하면 👉 3번까지만 재요청
     - > 이 값을 `함수 타입`으로 설정하면 👉 실패 횟수와 오류 타입에 따라 재요청할지 함수 내에서 결정할 수 있음
-  - `retryDelay` 👉 number | (retryAttempt: number, error: TError) => number 타입 값을 설정
+  - `retryDelay` 👉 number or (retryAttempt: number, error: TError) => number 타입 값을 설정
     - 시간 단위는 ms(밀리세컨드 0.001초)임
     - > 기본값 👉 (retryAttempt) => Math.min(1000 \* 2 \*\* failureCount, 30000)
     - > 실패 횟수 n 에 따라 2의 n 제곱 초만큼 기다렸다가 재요청하고 최대 30초까지 기다림
@@ -76,10 +76,10 @@ tags: [react-query, react-native, useQuery, useMutation]
     > - 재요청 기회가 주어지는 시점 : 똑같은 `Cache key` 를 사용하는 `useQuery` 를 사용중인 Component 가 마운트될 때
     > - `cacheTime`은 `useQuery Hook`을 사용한 Component가 언마운트되고 나서 해당 데이터를 얼마 동안 유지할지에 대한 설정, 기본값은 5
     > - 만약 `useQuery`를 사용한 Component 가 언마운트되고 나서 5분안에 다시 마운트된다면 isLoading 값이 true로 되지 않고, 처음 렌더링하는 시점부터 data 값이 이전에 불러온 데이터로 채워져 있게 된다. 그리고 `staleTime`에 따라 해당 데이터가 유효하다면 재요청하지 않고, 유효하지 않다면 재요청한다.
-  - `refetchInterval` 👉 false | number 타입값을 설정
+  - `refetchInterval` 👉 false or number 타입값을 설정
     - 이 설정으로 n초마다 데이터를 새로고침하도록 설정할 수 있음
     - 시간 단위는 ms 임
-  - `refetchOnmount` 👉 boolean | 'always' 타입의 값을 설정
+  - `refetchOnmount` 👉 boolean or 'always' 타입의 값을 설정
     - 이 설정으로 Component가 마운트될 때 재요청하는 방식을 설정할 수 있음
     - > 기본 값: true
     - > true일 때는 데이터가 유효하지 않을 때 재요청함
@@ -252,15 +252,15 @@ const Index = () => {
     },
   });
 
-  function onSubmit() {
     // API 호출에 사용될 인자
+  const onSubmit = () => {
     loginMutation.mutate({loginId: id, password: password});
   }
 }
 ```
 
-> **_예제 👇_** `invalidateQueries`를 사용하여 UPDATE 후 GET 함수를 간단하게 실행
-> `mutation` 함수가 성공할 때, `unique key`로 맵핑된 `GET`함수를 `invalidateQueries`에 넣어주면 됨
+> **_예제 👇_** `invalidateQueries`를 사용하여 UPDATE 후 GET 함수를 간단하게 실행  
+> `mutation` 함수가 성공할 때, `unique key`로 맵핑된 `GET`함수를 `invalidateQueries`에 넣어주면 됨  
 > **_만약 `mutation`에서 `return`된 값을 이용해서 `GET`함수의 파라미터를 변경해야 할 경우 `setQueryData`를 사용_**
 >
 > >
@@ -289,4 +289,49 @@ mutation.mutate({
   id: 5,
   name: "nkh",
 });
+```
+
+### 🍀 5. react-suspense 와 react-query 사용
+
+- 비동기를 좀 더 선언적으로 사용할 수 있음.
+- `suspense` 를 사용하여 `loading` 을, `Error bundary`를 사용하여 `error handling`을 더욱 직관적으로 할 수 있음.
+- `suspense` 를 사용하기 위해 `QueryClient` 에 `option` 을 하나 추가해야 함
+
+> **_예제 👇_** Global 하게 `suspense` 를 사용한다고 정의 > src/index.js 에 선언
+>
+> >
+
+```javascript
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0
+      suspense: true
+    }
+  }
+})
+
+ReactDom.render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  ...
+)
+```
+
+> **_예제 👇_** 함수마다 `suspense`를 사용하는 예시
+>
+> >
+
+```javascript
+const { data } = useQuery("test", testApi, { suspense: ture });
+
+return (
+  <Suspense fallback={<div> loading... </div>}>
+    <ErrorBoundary fallback={<div>에러발생</div>}>
+      <div>{data}</div>
+    </ErrorBoundary>
+  </Suspense>
+);
 ```
