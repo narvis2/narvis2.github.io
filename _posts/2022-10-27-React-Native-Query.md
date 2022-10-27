@@ -335,3 +335,67 @@ return (
   </Suspense>
 );
 ```
+
+### 🍀 6. React-Query Cache 데이터 새로고침
+
+- `React-Query`에는 `useQuery`를 사용할 때 입력한 `Unique Key`를 통해 데이터를 만료시키고, 새로 불러올 수 있도록 처리할 수 있다.
+- `invalidateQueries` 👇
+  - 캐시를 만료시켜 데이터를 새로 고침
+  - `Unique Key`를 사용하여 데이터를 만료시키고, API를 재요청하는 방식
+- `useQueryClient` 👉 이 `Hook`은 이전에 `App Component`에서 `QueryClientProvider`에 넣었던 `queryClient`를 사용할 수 있게 해줌
+  - `getQueryData` 👇
+    > - `Unique Key`를 사용하여 Cache Data 를 조회할 수 있음
+    > - 데이터가 `undifined`일 수 있으니, 만약 데이터가 존재하지 않는다면 `빈 배열`을 사용하도록 준비
+    > - `TypeScript` 환경에서는 `Generic`을 지정하면 반환값의 데이터 type 을 설정할 수 있음
+  - `setQueryData` 👇
+    > - Cache Data 를 업데이트하는 메서드
+    > - 데이터를 두 번째 인자에 넣어도되고, `업데이트 함수`형태의 값을 인자로 넣을 수 있음
+    > - 만약 `업데이트 함수` 형태로 넣는다면 `getQueryData`는 생략 가능
+
+> **_예제 👇_** `QueryClient`를 사용하여 데이터 새로고침
+>
+> >
+
+```javascript
+const queryClient = useQueryClient();
+
+const { mutate: write } = useMutation(writerArticle, {
+  onSuccess: () => {
+    queryClient.invalidateQueries("articles");
+    navigation.goBack();
+  },
+});
+```
+
+> **_예제 👇_** `QueryClient`로 `Cache Data`를 직접 `UPDATE`하기  
+> **_API를 재요청하지 않고 `Cache Data`를 `UPDATE`_**
+>
+> >
+
+```typescript
+const queryClient = useQueryClient();
+
+const { mutate: write } = useMutation(writeArticle, {
+  onSuccess: (article) => {
+    const articles = queryClient.getQueryData<Article[]>("articles") ?? [];
+    queryClient.setQueryData("articles", articles.concat(article));
+  },
+});
+```
+
+> **_예제 👇_** `getQueryData` 생략, `UPDATE` 함수 형태의 값을 인자로 넣음  
+> `Unique Key`로 데이터 조회 후 그 데이터를 `UPDATE` 함수를 사용하여 `UPDATE`
+>
+> >
+
+```typescript
+const queryClient = useQueryClient();
+
+const { mutate: write } = useMutation(writeArticle, {
+  onSuccess: (article) => {
+    queryClient.setQueryData<Article[]>("articles", (articles) =>
+      (articles ?? []).concat(article)
+    );
+  },
+});
+```
