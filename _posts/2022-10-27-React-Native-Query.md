@@ -1,7 +1,7 @@
 ---
 title: React-Native React-Query
 author: Narvis2
-date: 2022-08-25 16:19:00 +0900
+date: 2022-10-27 16:19:00 +0900
 categories: [React-Native, React-Query]
 tags: [react-query, react-native, useQuery, useMutation]
 ---
@@ -398,4 +398,138 @@ const { mutate: write } = useMutation(writeArticle, {
     );
   },
 });
+```
+
+### 🍀 7. useInfiniteQuery
+
+- `React-Query`에서 `Pagenation`을 구현할 때 사용
+- 함수 부분에서 `pageParam`을 사용하고, `option`부분에 `getNextPageParam`을 설정해줘야 함
+- `getNextPageParam` 👉 (lastPage, allPages) => unknown | undefined 타입 함수
+  > - 이 함수에서는 `pageParam`으로 사용할 값을 결정
+  > - `getNextPageParam` 에서 더 이상 조회할 수 있는 데이터가 없는 경우 `undefined` 를 반환해야 함
+  > - `allPages` 👉 지금까지 불러온 모든 페이지를 가리킴, 배열로 이루어진 배열
+  >   ex) Article[][]
+  > - `lastPage` 👉 가장 마지막으로 불러온 페이지, 현재 data type
+  >   ex) Article[]
+- `return` 값
+  > - `data` 👉 {pageParams, pages} 타입을 가지고 있음
+  > - `pageParams` 👉 각 페이지에서 사용된 파라미터 배열
+  > - `pages` 👉 각 페이지들을 배열 타입으로 나타냄 ex) Article[][]
+  > - `fetchNextPage` 👉 다음 페이지를 불러오는 함수
+  > - `hasNextPage` 👉 다음 페이지의 **_존재 유무_**를 알려줌
+  >   만약 `getNextPageParam` 에서 `undefined` 를 반환했다면 이 값은 `false`가 되고 그렇지 않으면 `true`가 된다.
+  > - `isFetchingNextPage` 👉 **_다음 페이지를 불러오고 있는지_** 여부를 알려줌
+  > - 그 외에 `useQuery`에서 반환되는 모든 필드들이 존재
+
+> **_예제 👇_** `useInfiniteQuery` 사용
+>
+> >
+
+```typescript
+const ArticlesScreen = () => {
+  const {data, isFetchingNextPage, fetchNextPage} = useInfiniteQuery(
+    'articles',
+    ({pageParam}) => getArticle({cursor: pageParam}),
+    {
+      getNextPageParam: (lastPage) =>
+        lastPage.length === 10 ? lastPage[lastPage.length - 1].id : undefined,
+    },
+  );
+
+  /**
+   * [][] => [] 으로 변경
+   * [] as Aritlce[] 이라고 입력하여 해당 배열이 Article의 배열이란 것을 명시하고, concat을 해줌
+   * concat 에는 배열 타입을 넣으면 해당 배열을 해체해서 앞부분의 배열에 붙여주기 때문에, 해당 방식으로
+   * 하면 배열들이 하나의 배열로 합쳐짐
+   */
+  const item = useMemo(() => {
+    if (!data) return null;
+    return ([] as Article[]).concat(...data.length)
+  }, [data]);
+
+  const [user] = useUserState();
+
+  if (!items) {
+    return (
+      <ActivityIndicator size="large" style={styles.spinner} color="black">
+    );
+  }
+
+  return (
+    <Articles
+      articles={items}
+      showWriteButton={!!user}
+      isFetchingNextPage={isFetchingNextPage}
+      fetchNextPage={fetchNextPage}
+    >
+  );
+}
+```
+
+> **_예제 👇_** `useInfiniteQuery` 사용 > `FlatList` 연결
+>
+> >
+
+```typescript
+interface ArticlesProps {
+  articles: Article[];
+  showWriteButton: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage(): void;
+}
+
+const Articles({
+  articles,
+  showWriteButton,
+  isFetchingNextPage,
+  fetchNextPage
+}: ArticlesProps) {
+  return (
+    <FlatList
+      data={articles}
+      renderItem={({item}) => (
+        <ArticleItem
+          id={item.id}
+          title={item.title}
+          publishedAt={item.published_at}
+          username={item.user.username}
+        />
+      )}
+      keyExtractor={(item) => item.id.toString()}
+      style={styles.list}
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
+      ListHeaderComponent={() => (showWriteButton ? <WriteButton /> : null)}
+      ListFooterComponent={() => (
+        <>
+          {articles.length > 0 ? <View style={styles.separator} /> : null}
+          {isFetchingNextPage && (
+            <ActivityIndicator
+              size="small"
+              color="black"
+              style={styles.spinner}
+            />
+          )}
+        </>
+      )}
+      onEndReachedThrehold={0.5}
+      onEndReached={fetchNextPage}
+    />
+  );
+}
+
+const styles = StyleSheet.create({
+  list: {
+    flex: 1,
+  },
+  separator: {
+    width: '100%',
+    height: 1,
+    backgroundColor: '#cfd8dc',
+  },
+  spinner: {
+    backgroundColor: 'white',
+    paddingTop: 32,
+    paddingBottom: 32,
+  },
+})
 ```
