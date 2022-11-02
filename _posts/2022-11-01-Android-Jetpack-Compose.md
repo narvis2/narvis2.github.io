@@ -115,3 +115,81 @@ fun ComposeBox() {
     }
 }
 ```
+
+### 🍀 8. LazyColumn, LazyRow
+
+- `RecyclerView`와 동일한 기능
+  > - `LazyColumn` 👉 RecyclerView orientation Vertical
+  > - `LazyRow` 👉 RecyclerView orientation Horizontal
+- `View`를 재활용하지는 않음, 스크롤할때 새로운 `Composable`을 내보냄
+  > **_참고_** 👉 새로운 `Composable`을 내보내는 것이 기존의 방법인 `View`를 `instance`하는 것에 비해 상대적으로 효율적임
+
+> **_예제_** 👇 `LazyColumn`
+
+```kotlin
+@Composable
+fun MyScreenContent(names: List<String> = List(100) {"안드로이드 $it"}) {
+    val counterState = remember { mutableStateOf(0) }
+
+    Column(modifier = Modifier.fillMaxHeight()) {
+        NameList(names = names, Modifier.weight(1f))
+        Counter(counterState.value) {
+            counterState.value = it
+        }
+    }
+}
+
+@Composable
+fun NameList(names: List<String>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier) {
+        items(items = names) { name ->
+            Greeting(name = name)
+            Divider(color = Color.Black)
+        }
+    }
+}
+```
+
+### 🍀 9. Weight Modifier
+
+- 특정 아이템의 위치를 지정
+- 아이템의 `Weight`를 지정하는 방법 👉 전체를 감싸는 `Colum`의 `Modifier.fillMaxHeight()`를 사용해야 함
+  > `Modifier.fillMaxHeight()` 👉 `Colum` 이 최대의 높이를 가지도록 함
+
+> **_예제_** 👇
+
+```kotlin
+@Composable
+fun MyScreenContent(names: List<String> = listOf("Android", "Compose")) {
+    val countState = remember { mutableStateOf(0) }
+
+    Column(modifier = Modifier.fillMaxHeight()) {
+        Column(modifier = Modifier.weight(1f)) {
+            names.forEach {
+                Greeting(name = it)
+                Divider(color = Color.Black)
+            }
+        }
+
+        Counter(counterState.value) {
+            counterState.value = it
+        }
+    }
+}
+```
+
+> **_예제_** 버튼 색상 변경 👇
+
+```kotlin
+@Composable
+fun Counter(count: Int, updateCount: (Int) -> Unit) {
+    Button(
+        onClick = { updateCount(count + 1) },
+        colors = ButtonDefaults.buttonColor(
+            backgroundColor = if (count > 5) Color.Cyan else Color.White
+        )
+    ) {
+        Text(text = "$count 번 클릭")
+    }
+}
+```
