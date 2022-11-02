@@ -2,7 +2,7 @@
 title: Android Jetpack Compose Remember, State<T>
 author: Narvis2
 date: 2022-11-02 10:05:00 +0900
-categories: [Android, Compose]
+categories: [Android, Jetpack-Compose]
 tags: [android, jetpack, compose, remember, state]
 ---
 

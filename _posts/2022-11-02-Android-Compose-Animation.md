@@ -2,7 +2,7 @@
 title: Android Compose Animation 기초
 author: Narvis2
 date: 2022-11-02 09:19:00 +0900
-categories: [Android, Compose]
+categories: [Android, Jetpack-Compose]
 tags: [android, jetpack, compose, animation, alpha]
 ---
 

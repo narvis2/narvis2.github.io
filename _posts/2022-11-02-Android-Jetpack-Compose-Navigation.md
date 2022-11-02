@@ -2,7 +2,7 @@
 title: Android Jetpack Compose Navigation
 author: Narvis2
 date: 2022-11-02 13:06:00 +0900
-categories: [Android, Compose]
+categories: [Android, Jetpack-Compose]
 tags: [android, jetpack, compose, navigation]
 ---
 

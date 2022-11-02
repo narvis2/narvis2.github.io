@@ -2,7 +2,7 @@
 title: Android Jetpack Compose Snackbar
 author: Narvis2
 date: 2022-11-02 14:09:00 +0900
-categories: [Android, Compose]
+categories: [Android, Jetpack-Compose]
 tags: [android, jetpack, compose, snackbar]
 ---
 
