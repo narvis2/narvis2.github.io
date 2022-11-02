@@ -16,6 +16,9 @@ tags: [android, jetpack, compose, snackbar]
   - `expanded` 👉 `DropDownMenu`가 펼쳐졌는지 여부
   - `onDismissRequest` 👉 `DropDownMenu`를 닫으라는 명령이 떨어졌을 때의 Callback
   - `offset` 👉 `DropDownMenu`를 호출하는 `Composable`의 기준점으로부터의 거리(`offset`)을 설정
+    > ⚠️**_주의_**⚠️
+    >
+    > - `DropDownMenu`는 내부에서 `DropDownMenuPositionProvider`에 의해 자동으로 위치가 조정되어 화면 상에 표시됨
   - `properties` 👉 `Back Button`을 눌렀을 때 `DropDownMenu`를 `Dismiss`할 것인지, `DropDownMenu`의 바깥쪽을 눌렀을 때 `Dismiss`할 것인지 등의 `DropDownMenu`의 기본 동작을 정의
   - `content` 👉 `DropDownMenu`안에 들어갈 `Menu Item`을 넣는 공간, `@Composable` 넣기, 람다 형식
 
@@ -53,6 +56,7 @@ fun ButtonWithDropDownMenu() {
     DropdownMenu(
         modifier = Modifier.wrapContentSize(),
         expanded = isExpanded.value,
+        offset = DpOffset(0.dp, 12.dp),
         onDismissRequest = { isExpanded.value = false }
     ) {
         // 4. DropDownMenuItem 을 정의
