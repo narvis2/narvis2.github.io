@@ -193,3 +193,77 @@ fun Counter(count: Int, updateCount: (Int) -> Unit) {
     }
 }
 ```
+
+### 🍀 10. Scaffold
+
+- **_기본으로 제공되는 `Material Component Composable`중 가장 높은 레벨의 `Composable`_**
+- `TopAppBar`, `BottomBar`, `SnackBar`, `FloatingActionButton` 및 `Drawer` 용 `slot`이 있음
+  > `slot` 👉 여러가지 속성들을 개발자가 정의하여 사용하도록 하기위해 제공하는 `빈공간`
+- 뼈대 역할
+  > 주로 Main 화면 만들때 사용
+
+> **_예제_** 앱바 + 앱바 오른쪽 끝 Icon 👇
+
+```kotlin
+@Composable
+fun ScaffoldEx() {
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text(text = "앱 바 타이틀") },
+            actions = {
+                IconButton(onClick = {}) {
+                    Icon(Icons.Filled.Favorite, contentDescription = null)
+                }
+            }
+        )
+    }) { innerPadding ->
+        BodyContent(Modifier.padding(innerPadding).padding(8.dp))
+    }
+}
+```
+
+## 🍎 번외
+
+### 1. Custom Button
+
+```kotlin
+@Composable
+fun CreateButton() {
+    Button(onClick = {}) {
+        Row() {
+            Image(painter = painterResource(R.drawable.something), contentDescription = "")
+            Text(
+                "버튼",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(4.dp).align(Alignment.CenterVerticall)
+            )
+        }
+    }
+}
+```
+
+### 2. UI 꾸미기
+
+- padding 으로 클릭 영역 늘리기 👉 `clickable`전에 `padding`을 하는 경우 클릭 영역은 늘러나지 않음
+
+```kotlin
+@Composable
+fun PhotographerCard(modifier: Modifier = Modifier) {
+    Row(
+        modifier.padding(8.dp)
+            .clip(RoundedCornerShape(4.dp)) // Row 에 코너 추가 (Radius)
+            .backgroundColor = MaterialTheme.colors.surface
+            .clickable {}
+            .padding(16.dp)
+    ) {
+        // size 가 50인 원 만들기
+        Surface(
+            modifier = Modifier.size(50.dp),
+            shape = CircleShape,
+            color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
+        ) {
+            // TODO :: something view...
+        }
+    }
+}
+```
