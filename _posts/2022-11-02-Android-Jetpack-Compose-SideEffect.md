@@ -1,5 +1,5 @@
 ---
-title: Android Jetpack Compose Remember, State<T>
+title: Android Jetpack Compose Side Effect
 author: Narvis2
 date: 2022-11-02 11:16:00 +0900
 categories: [Android, Compose]
@@ -62,6 +62,27 @@ fun KotlinWorldScreen(longTimeJob: suspend () -> String) {
 
     LaunchedEffect(true) {
         println(rememberLongTimeJob())
+    }
+}
+```
+
+### 🍀 2. Disposable Effect
+
+- `Composable`이 `Dispose`된 후에 정리해야 할 `Side Effect`가 있는 경우에 사용되는 `Effect`
+- **_`Composable`의 `Lifecycle`에 맞춰 정리되어야 하는 `Listener`나 작업이 있는 경우에 `Listener`나 작업을 제거하기 위해 사용되는 `Effect`_**
+- ⚠️ `Lifecycle`에 따라 `Side Effect`를 발생시킨 다음 정리되어야 하는 부분이 많을 경우 **_제대로 `Side Effect`에 대한 정리를 하지 않으면 `Memory Leak(메모리 누수)`가 발생할 수 있음_**
+- 첫 번쨰 인자 `key` 👉 `key` 값이 바뀔때 마다 `effect` 호출
+- 두 번째 인자 `effect`
+  - `Effect` 블럭은 처음에는 초기화 로직만 수행하고 이후에는 `key` 값이 바뀔때마다 `onDispose` 블록을 호출한 후 초기화 로직을 다시 호출함
+  - `onDispose` 블록의 `return`값이 바로 `DisposableEffect` 여서 `onDispose`블록은 `effect`람다식의 맨 마지막에 무조건 와야함
+
+> **_예제_** 👇
+
+```kotlin
+DisposableEffect(key) {
+    // Composable 이 제거될 때 Dispose 되어야 하는 효과 초기화
+    onDispose {
+        // Composable 이 Dispose 될 때 호출되어 Dispose 되어야 하는 효과 제거
     }
 }
 ```
