@@ -102,7 +102,7 @@ class TodoViewModel : ViewModel() {
 }
 ```
 
-> **_예제_** 👇 위 `ViewModel` 사용
+> **_예제_** 👇 위 `ViewModel` 사용  
 > ✅ state holder 설정
 >
 > - 만약 실제 UI를 그리는 TodoScreen 에 직접 ViewModel 을 전달하면 `Preview` 기능을 사용하기 어려워지고 테스트 가능성이 떨어짐
