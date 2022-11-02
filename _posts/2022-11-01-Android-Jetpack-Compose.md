@@ -224,7 +224,7 @@ fun ScaffoldEx() {
 
 ## 🍎 번외
 
-### 1. Custom Button
+### 🍀 1. Custom Button
 
 ```kotlin
 @Composable
@@ -242,7 +242,7 @@ fun CreateButton() {
 }
 ```
 
-### 2. UI 꾸미기
+### 🍀 2. UI 꾸미기
 
 - padding 으로 클릭 영역 늘리기 👉 `clickable`전에 `padding`을 하는 경우 클릭 영역은 늘러나지 않음
 
@@ -260,7 +260,8 @@ fun PhotographerCard(modifier: Modifier = Modifier) {
         Surface(
             modifier = Modifier.size(50.dp),
             shape = CircleShape,
-            color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
+            color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f),
+            border = BorderStroke(width = 2.dp, color = Color.LightGray) // 테두리
         ) {
             // TODO :: something view...
         }
