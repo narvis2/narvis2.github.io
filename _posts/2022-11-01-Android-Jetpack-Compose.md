@@ -150,6 +150,50 @@ fun NameList(names: List<String>, modifier: Modifier = Modifier) {
 }
 ```
 
+> **_예제_** 👇 `LazyColumn` `Scroll Controll`
+>
+> - `rememberLazyListState()` 사용
+> - `LazyColum`, `LazyRow` 의 스크롤 위치를 기억
+> - 맨위로 끌어당기기, 맨 아래로 넘기기 등에 사용
+
+```kotlin
+@Composable
+fun SimpleLazyColumn() {
+    val listSize = 100
+    val scrollState = rememberLazyListState()
+    val scrollCoroutineScope = rememberCoroutineScope()
+
+    Column {
+        Row {
+            Button(onClick = {
+                scrollCoroutineScope.launch {
+                    scrollState.animateScrollToItem(index = 0)
+                }
+            }) {
+                Text(text = "Scroll to Top")
+            }
+            Button(onClick = {
+                scrollCoroutineScope.launch {
+                    scrollState.animateScrollToItem(index = listSize - 1)
+                }
+            }) {
+                Text(text = "Scroll to Bottom")
+            }
+        }
+    }
+
+    LazyColumn(
+        state = scrollState,
+        contentPadding = PaddingValues(horizantal = 16.dp, vertical = 8.dp),
+        verticalArrangment = Arrangement.spaceBy(4.dp) // 각 Item 사이의 간격
+    ) {
+        items(listSize) { index ->
+            ImageListItem(index)
+        }
+    }
+}
+```
+
 ### 🍀 9. Weight Modifier
 
 - 특정 아이템의 위치를 지정
