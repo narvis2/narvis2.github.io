@@ -86,3 +86,36 @@ DisposableEffect(key) {
     }
 }
 ```
+
+> **_예제_** 👇
+>
+> - 사용자의 사용 패턴 분석을 위한 로깅 (`Activity` 의 `onStart()`에서 시작되어 `onStop()`에서 끝나야 함)
+> - `Lifecycle` 이 바뀔 때 새로운 `Observer`가 `Lifecycle`에 붙어 변화를 구독하고 `Composable`이 제거될 떄 `Observer` 또한 제거되도록 구현
+
+```kotlin
+@Composable
+fun HomeScreen(
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    _onStartLogging: () -> Unit,
+    _onStopLogging: () -> Unit,
+) {
+    val startLoggingOnStart by rememberUpdatedState(_onStartLogging)
+    val stopLoggingOnStop by rememberUpdatedState(_onStopLogging)
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_START) {
+                startLoggingOnStart()
+            } else {
+                stopLoggingOnStop()
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+}
+```
