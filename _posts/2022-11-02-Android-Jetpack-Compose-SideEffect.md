@@ -119,3 +119,46 @@ fun HomeScreen(
     }
 }
 ```
+
+### 🍀 3. SideEffect
+
+- `Composable`의 `Composition`이 성공적으로 되었을 때 발생하는 `Effect`
+- `Compose`에서 관리하지 않는 객체와 `Compose` 내부의 데이터를 공유하기 위해 사용
+- ⚠️ `SideEffect` 의 한계점
+  - `SideEffect`로 수행하는 `Effect`는 `Composable`이 `Dispose`될 때 정리가 불가능
+  - `SideEffect`는 `LaunchedEffect` or `DisposableEffect`로 충분히 대체 가능
+
+> **_예제_** 👇
+>
+> - `FocusRequester` 의 `requestFocus`는 `Composable`이 아닌 `System`의 `Event`이므로 `Composable` 이 관리하는 `Event` 가 아님
+> - 따라서, `Composable`의 구성이 완료된 이후에 `requestFocus`가 호출되도록 보장하려면 `SideEffect`를 사용해야 함
+
+```kotlin
+@Composable
+fun HomeScreen() {
+    var isVisible by remember { mutableStateOf(false) }
+    // Composable 이 아닌 System의 Event
+    val focusRequester = remember { FocusRequester() }
+
+    Column (modifier = Modifier.fillMaxSize()) {
+        Button(onClick = { isVisible = true }) {
+            Text(text = "버튼 클릭")
+        }
+
+        if (isVisible) {
+            OutlinedTextField(
+                modifier = Modifier.fillMaxSize()
+                                .focusRequester(focusRequester),
+                value = "",
+                onValueChange={}
+            )
+        }
+    }
+
+    SideEffect {
+        if (isVisible) {
+            focusRequester.requestFocus()
+        }
+    }
+}
+```
