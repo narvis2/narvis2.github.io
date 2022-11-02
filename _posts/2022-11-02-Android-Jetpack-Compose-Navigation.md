@@ -252,7 +252,8 @@ fun CustomDialog(
 ### 🍀 1. Dependency 추가 (build.gradle)
 
 - `Jetpack Navigation Compose Material` 사용
-  > [Document](https://google.github.io/accompanist/navigation-material/)
+  > - [공식 홈페이지](https://google.github.io/accompanist/navigation-material/)
+  > - [자세한 설명](https://jossiwolf.medium.com/introducing-navigation-material-%EF%B8%8F-a19ed5cc33fd)
 
 ```gradle
 implementation "com.google.accompanist:accompanist-navigation-material:0.27.0"
@@ -298,4 +299,44 @@ navController.navigate(route = NavigationType.BottomSheet.name)
 
 ```kotlin
 navController.popBackStack()
+```
+
+### 🍀 3. Navigating with Arguments
+
+- `bottomSheet` 에 데이터 전달
+
+> **_예제_** 👇
+
+```kotlin
+@Composable
+fun MyNavigation(mainViewModel: MainViewModel) {
+    val navController = rememberNavController()
+    val bottomSheetNavigator = rememberBottomSheetNavigator()
+
+    navController.navigatorProvider += bottomSheetNavigator
+
+    ModalBottomSheetLayout(bottomSheetNavigator) {
+        NavHost(navController, startDestination = "home") {
+            composable(route = "home") {
+                Button(onClick = {
+                    navController.navigate("sheet?message=hellow_world")
+                }) {
+                    Text("Click me to see something cool!")
+                }
+            }
+
+            bottomSheet(route = "sheet?message={message}") { backStackEntry ->
+                val message = backStackEntry.arguments?.getString("message")
+                Text("This is a cool bottom Sheet")
+                if (message != null) {
+                    Text("Magic message: $message")
+                }
+
+                Button(onClick = { navController.navigate("home") }) {
+                    Text("Take me back, please")
+                }
+            }
+        }
+    }
+}
 ```
