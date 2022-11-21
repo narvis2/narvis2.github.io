@@ -29,6 +29,7 @@ tags: [ObservableObject, ObservedObject, Published, StateObject, ViewModel]
 ---
 
 - `ObservableObject`를 이용하여 `Data Model`과 `View`를 쉽게 `Binding`할 수 있음
+- `ObservableObject`로 `ViewModel`을 설정하고, `View` 단에서는 `ViewModel`에 `@ObservedObject`를 붙여줌으로서 `ViewModel`의 **_변화를 관찰_** 할 수 있고, 그 변화에 반응할 수 있음
 
 ### ☘️ ObservableOjbect
 
@@ -46,6 +47,7 @@ tags: [ObservableObject, ObservedObject, Published, StateObject, ViewModel]
 
 - `ObservableOject` 에서 속성을 선언할 때 사용하는 `PropertyWrapper`
 - 해당 속성이 업데이트 될 때마다 `View`를 `Update`, `$` `operator`를 붙여 게시자에 엑세스 가능
+- `@Published`가 붙어있는 변수가 **_변경_** 되면 이를 **_지켜보고 있는 `View`에게 `ViewModel`이 변경되었음을 알려주고, `View`는 새로운 객체를 바탕으로 `View`를 `Refresh` 한다._**
 - Android 의 `LiveData`와 유사
 
   > **_예제_** 👇
