@@ -14,15 +14,31 @@ tags: [ObservableObject, ObservedObject, Published, StateObject, ViewModel]
 ---
 
 - `Model` 👉 `Application` 에서 사용되는 데이터와 그 데이터를 처리하는 부분
+  - 서버에서 들어오는 데이터, 디바이스에 저장되는 Local 데이터
 - `View` 👉 사용자에게 보여지는 `UI` 부분
+  - `ViewModel`의 데이터가 변경된 것을 감지해 `UI`를 `Update`함
 - `ViewModel` 👉 `View`를 표현하기 위해 만든 `View`를 위한 `Model`
-  > `View`와 `Model` 을 연결 시켜 주는 곳
-- `View`는 `ViewModel` 을 알고 있지만 `Model`을 알지 못함
-- `View` 와 `Model`은 서로 알지 못함
-- **_즉, 의존성 분리_**
-  > - `View`와 `Model` 사이의 의존성이 없음 (`View`의 부담을 줄여줌)
-  > - `ViewModel`은 `Data Binding`을 통해 `View`와 `Model`을 이어줌
-  > - 각각의 부분은 **_독립적_** 이기 때문에 모듈화 하여 개발할 수 있음.
+  - `View`와 `Model` 을 연결 시켜 주는 곳
+  - 데이터의 변경사항을 알려주는 `LiveData`를 가지고 있음
+  - `Model` 이 변경된 것을 감지하여 `UI`를 위한 데이터를 변경해야함
+- `View`는 `Model`을 모르지만 `ViewModel`을 알고 있음
+- `ViewModel`은 `View`를 모르지만 `Model`을 알고 있음
+- `View`를 통해 들어온 사용자 인터렉션은 `ViewModel`에게 전달되어 특정 로직이 실행됨
+- **_✅ 즉, 의존성 분리_**
+  - `View`와 `Model` 사이의 의존성이 없음 (`View`의 부담을 줄여줌)
+  - `ViewModel`은 `Data Binding`을 통해 `View`와 `Model`을 이어줌
+  - 각각의 부분은 **_독립적_** 이기 때문에 모듈화 하여 개발할 수 있음.
+- **_✅ 장점_**
+  - `View` 와 `data` 가 완전 분리된다.
+  - `View`가 `data`관리를 할 필요가 없으므로 `UI update`에만 집중할 수 있음
+  - 각 `View` 간에 `data` 공유가 훨씬 쉬워진다.
+  - 유지보수의 장점 👉 의존성이 분리되므로, `View`의 코드를 변경할 때 다른 부분의 코드를 변경할 필요가 없음
+- **_✅ 동작 순서_**
+  - 1️⃣ 사용자의 `action`이 `View`를 통해 들어옴
+  - 2️⃣ `command` 패턴을 사용하여 `ViewModel`에 `Action`을 전달함
+  - 3️⃣ `ViewModel`이 `Model`에서 `data`를 요청하고, `Model`은 `ViewModel`에서 요청받은 데이터를 `ViewModel`에 전달함
+  - 4️⃣ `ViewModel`은 응답받은 데이터를 가공, 저장함
+  - 5️⃣ `View`는 `ViewModel`과의 `Data Binding`을 이용해 화면을 갱신함 (`Observer 패턴`)
 
 ## 🍀 Swift with ViewModel
 
