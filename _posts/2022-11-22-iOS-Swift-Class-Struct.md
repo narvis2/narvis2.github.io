@@ -62,6 +62,8 @@ name2.myName()
 
 - `instance`의 `값(프로퍼티)`를 `저장`하거나 `기능(메서드)`를 제공하고 이를 `캡슐화`할 수 있는 `Swift`가 제공하는 `Type`임
   > - `class` 처럼 `instance`화를 하여 실제 작업에도 쓸 수 있음 (타입 캐스팅 허용 안함)
+- 불변성(`Immutable`) 구현에 유리
+- `Multi Thread` 에 안전함
 - `속성(property)` 👉 구조체(`Struct`) 안의 변수
 - `메소드(method)` 👉 구조체(`Stuct`) 안의 함수
 - ✅ **_값 타입_**

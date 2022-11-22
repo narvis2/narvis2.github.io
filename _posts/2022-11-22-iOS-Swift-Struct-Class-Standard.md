@@ -20,7 +20,10 @@ tags: [struct, class]
   - 3️⃣ `Data`의 `identity`를 다뤄야 한다면 `class`를 사용 (`참조방식`)
   - 4️⃣ `상속`이 필요할 경우 👉 `struct` + `protocol` 조합을 사용
     > - `protocol`은 `class`와 달리, `sturct`, `class`, `enum` 모두와 상속 관계를 지을 수 있어 선호됨
-  - 5️⃣ `DB`연결 처럼 `App` 전체 코드에서 상황을 공유해야 할 때 `class` 사용
+  - 5️⃣ 상속이 필요하지 않고 모델이 크지 않으면 `struct` 사용
+  - 6️⃣ `DB`연결 처럼 `App` 전체 코드에서 상황을 공유해야 할 때 `class` 사용
+  - 7️⃣ `json`파싱할 경우 `struct`사용
+  - 8️⃣ `serialize`해서 전송하거나 파일로 저장할 일이 있다면 `class` 사용
 
 ### ☘️ 기본적으로 struct 사용
 
