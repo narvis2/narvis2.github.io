@@ -11,6 +11,8 @@ tags: [class, struct]
 
 ## 🍀 Class
 
+---
+
 - `Swift`에서는 `class`를 정의하여 `객체(Object)`를 만들고 사용할 수 있음
 - `class` 하나를 만든다면 `class`에서 생성된 객체인 **_instance_** 를 만들어 실제 작업에 쓰일 수 있게 해야함
   > - `instance` 👉 클래스 초기화, (타입 캐스팅 허용)
@@ -56,6 +58,8 @@ name2.myName()
 
 ## 🍀 Struct
 
+---
+
 - `instance`의 `값(프로퍼티)`를 `저장`하거나 `기능(메서드)`를 제공하고 이를 `캡슐화`할 수 있는 `Swift`가 제공하는 `Type`임
   > - `class` 처럼 `instance`화를 하여 실제 작업에도 쓸 수 있음 (타입 캐스팅 허용 안함)
 - `속성(property)` 👉 구조체(`Struct`) 안의 변수
@@ -91,7 +95,9 @@ print(choi.name) // 프로퍼티 호출
 choi.myName() // 메서드 호출
 ```
 
-## 🍀 Class / Sturct 공통점 및 차이점
+## 🍀 Class / Struct 공통점 및 차이점
+
+---
 
 ### ☘️ 공통점
 
