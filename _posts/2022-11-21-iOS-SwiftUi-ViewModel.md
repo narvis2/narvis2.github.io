@@ -2,7 +2,7 @@
 title: iOS SwiftUi ViewModel
 author: Narvis2
 date: 2022-11-21 16:02:00 +0900
-categories: [SwiftUi]
+categories: [Swift, SwiftUi]
 tags: [ObservableObject, ObservedObject, Published, StateObject, ViewModel]
 ---
 
