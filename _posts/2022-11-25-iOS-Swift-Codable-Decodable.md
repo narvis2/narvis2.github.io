@@ -56,7 +56,12 @@ tags: [codable, decodable, encodable]
   // JSON 타입으로 인코딩할 수 있는 객체
   let jsonEncoder = JSONEncoder()
 
-  jsonEncoder.outputFormatting = .prettyPrinted
+  jsonEncoder.outputFormatting = .prettyPrinted // 줄바꿈과 들여쓰기 삽입
+  jsonEncoder.outputFormatting = .sortedKeys // 키 정렬 (사전순)
+  // 위의 2가지 설정을 함께 쓰는 경우
+  jsonEncoder.outputFormatting = [.sortedKeys, .prettyPrinted]
+
+
   let data = try jsonEncoder.encode(sample)
 
   print(data) // 13 bytes
@@ -107,6 +112,191 @@ tags: [codable, decodable, encodable]
 
 ## 🍀 Codable
 
+---
+
 - `Decodable`과 `Encodable`을 동시에 가지고 있는 타입
 - ✅ 즉, `Decodable`과 `Encodable`이 합쳐진 것
 - `struct`, `enum`, `class` 전부 채택 가능
+
+  > 1️⃣ **_예제_** ) `Codable`을 채택하고 있는 `Track` `struct`생성 👇
+
+  ```swift
+  struct Track: Codable {
+      let title: String
+      let artistName: String
+      let isStreamable: Bool
+  }
+  ```
+
+  > 2️⃣ **_예제_** ) 직렬화 - `struct` 인스턴스를 `JSONEncoder`를 사용하여 `Data`로 인코딩 👇
+
+  ```swift
+  let sampleInput = Track(title: "New Rules", artistName: "Choi young jun", isStreamable: true)
+
+  do {
+    let encoder = JSONEncoder()
+    // 직렬화 struct -> data
+    let data = try encoder.encode(sampleInput)
+
+    print(data) // 65 Bytes
+
+    // data -> string 형태로 변환
+    if let jsonString = String(data: data, encoding: .utf8) {
+        print(jsonString) // {"title":"New Rules","isStreamable":true,"artistName":"Dua Lipa"}
+    }
+
+  } catch {
+    print(error)
+  }
+  ```
+
+  > 3️⃣ **_예제_** ) 역직렬화 - `Data`를 `struct`로 변경 👇
+
+  ```swift
+  let jsonData = """
+  {
+    "artistName" : "Dua Lipa",
+    "isStreamable" : true,
+    "title" : "New Rules"
+  }
+  """.data(using: .utf8)!
+
+  do {
+      let decoder = JSONDecoder()
+      let data = try decoder.decode(Track.self, from: jsonData)
+      print(data) // Track(title: "New Rules", artistName: "Dua Lipa", isStreamable: true)
+      print(data.title) // New Rules
+  } catch {
+      print(error)
+  }
+  ```
+
+  > 3️⃣ **_예제_** ) Handling `Dates` - `decoder.dateDecodingStrategy` 속성 사용 👇
+
+  ```swift
+  struct Track: Codable {
+      let title: String
+      let artistName: String
+      let isStreamable: Bool
+      let releaseDate: Date
+  }
+
+  let jsonData = """
+  {
+    "artistName" : "Dua Lipa",
+    "isStreamable" : true,
+    "title" : "New Rules",
+    "releaseDate": "2017-06-02T12:00:00Z"
+  }
+  """.data(using: .utf8)!
+
+  do {
+      let decoder = JSONDecoder()
+      // Serialize 날짜가 date 형태로 변환되게 하는 설정
+      decoder.dateDecodingStrategy = .iso8601
+      let data = try decoder.decode(Track.self, from: jsonData)
+
+      print(data)
+      print(data.releaseDate)
+  } catch {
+      print(error)
+  }
+  ```
+
+  > 4️⃣ **_예제_** ) `api response`가 `Wrapper Key`를 포함하는 경우 👇
+
+  ```swift
+  struct Response: Codable {
+      let resultCount: Int
+      let results: [Track]
+  }
+
+  struct Track: Codable {
+      let title: String
+      let artistName: String
+      let isStreamable: Bool
+  }
+
+  let jsonData = """
+  {
+    "resultCount": 50,
+    "results": [{
+    "artistName" : "Dua Lipa",
+    "isStreamable" : true,
+    "title" : "New Rules"
+    }]
+  }
+  """.data(using: .utf8)!
+
+  do {
+      let decoder = JSONDecoder()
+      let data = try decoder.decode(Response.self, from: jsonData)
+      print(data.results[0]) // Track(title: "New Rules", artistName: "Dua Lipa", isStreamable: true)
+  } catch {
+      print(error)
+  }
+  ```
+
+  > 5️⃣ **_예제_** ) `api response`가 `Root Level Arrays`를 가질 경우 👇
+
+  ```swift
+  struct Track: Codable {
+      let title: String
+      let artistName: String
+      let isStreamable: Bool
+  }
+
+  let jsonData = """
+  [{
+      "artistName" : "Dua Lipa",
+      "isStreamable" : true,
+      "title" : "New Rules"
+  }]
+  """.data(using: .utf8)!
+
+  do {
+      let decoder = JSONDecoder()
+      // 넣을때 []로 감싸서 사용
+      let data = try decoder.decode([Track].self, from: jsonData)
+      print(data[0]) // Track(title: "New Rules", artistName: "Dua Lipa", isStreamable: true)
+  } catch {
+      print(error)
+  }
+  ```
+
+  > 5️⃣ **_예제_** ) `struct`에서 `enum` 을 `type`으로 가질 경우 👇
+
+  ```swift
+  struct Track: Codable {
+      let title: String
+      let artistName: String
+      let isStreamable: Bool
+      let primaryGenreName: Genre
+  }
+
+  enum Genre: String, Codable {
+      case Pop
+      case KPop = "K-Pop"
+      case Rock
+      case Classical
+      case HipHop = "Hip-Hop"
+  }
+
+  let jsonData = """
+  {
+    "artistName" : "Dua Lipa",
+    "isStreamable" : true,
+    "title" : "New Rules",
+    "primaryGenreName": "Pop"
+  }
+  """.data(using: .utf8)!
+
+  do {
+      let decoder = JSONDecoder()
+      let data = try decoder.decode(Track.self, from: jsonData)
+      print(data)
+      print(data.primaryGenreName) // Pop
+  } catch {
+      print(error)
+  }
+  ```
