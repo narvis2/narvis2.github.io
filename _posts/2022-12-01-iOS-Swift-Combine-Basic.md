@@ -2,7 +2,7 @@
 title: iOS SwiftUi Combine 기초
 author: Narvis2
 date: 2022-12-01 17:10:00 +0900
-categories: [iOS, Combine]
+categories: [Swift, Combine]
 tags: [iOS, Combine, SwiftUi]
 ---
 
@@ -87,6 +87,8 @@ tags: [iOS, Combine, SwiftUi]
 - **_`Cancellable` `Protocol`을 사용해서 메모리 관리_**
 - `Subscriber`들은 `Cancellable`을 준수하고 있음
 - `Object`를 메모리에서 해제 👉 모든 `subscription`은 취소 👉 리소스를 메모리로부터 해제
+- ✅ `subscirber`가 더 이상 값을 받을 필요 없을 때 `cancel()` 사용
+  > ❗️ `cancel()`을 직접 호출하지 않으면, `deinit`될 때까지 구독됨
 - ✅ 장점
   - 1️⃣ `Subscription`의 수명을 `View Controller`같은 `Object`에 `binding` 기능
   - 2️⃣ 유저가 `View Controller`를 `View Stack`에서 `dismiss 👉 subscription` 취소 해줌
