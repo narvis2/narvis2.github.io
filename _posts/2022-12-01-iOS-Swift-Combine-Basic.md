@@ -17,6 +17,10 @@ tags: [iOS, Combine, SwiftUi]
 - `Delegate`나 `Completion Handler` 구현 대신 `Event` 소스에 대한 `Single processing chain`을 만들 수 있습니다.
 - `Apple` 버전의 `RxSwift`
 - 시간의 흐름에 따라 값을 처리하기 위한 `Declarative Swift API`를 제공하는 프레임워크
+- ✅ `Combine`으로 할 수 있는 대표적인 작업
+  - 1️⃣ 필드에 입력한 값이 유요한 경우에만 `Submit`버튼이 활성화되도록 설정
+  - 2️⃣ 비동기작업을 수행하고 반환된 값을 사용하여 `View`를 `Update`할 방법과 대상을 선택할 수 있음
+  - 3️⃣ 사용자가 텍스트필드에 동적으로 입력하고 입력한 내용을 기반으로 사용자 인터페이스 `View`를 `Update`함
 - ✅ 장점
   - 1️⃣ `System Level`에 통합되어 있음.
   - 2️⃣ `delegate`, `closure`를 만들 필요 없음.
