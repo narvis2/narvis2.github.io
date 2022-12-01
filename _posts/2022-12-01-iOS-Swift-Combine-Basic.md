@@ -1,7 +1,7 @@
 ---
 title: iOS SwiftUi Combine 기초
 author: Narvis2
-date: 2022-12-01 17:10:00 +0900
+date: 2022-12-01 17:20:00 +0900
 categories: [Swift, Combine]
 tags: [iOS, Combine, SwiftUi]
 ---
@@ -46,6 +46,7 @@ tags: [iOS, Combine, SwiftUi]
 - ✅ **_참고_**
 
   > - `Publisher`는 `Output`을 안보내고 있거나 여러번 보낼 수 있으며, `Completion`이나 `Failure`를 한번 보내고 나면 더 이상의 `Event`를 보낼 수 없음
+  > - 구독이 없는 경우 `Publisher`는 데이터를 제공하지 않음
 
 - ✅ **_특징_**
   - 1️⃣ **_3가지 `Event`로_** 모든 종류의 동적 데이터를 표현 가능
