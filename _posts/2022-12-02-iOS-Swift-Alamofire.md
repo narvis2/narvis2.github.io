@@ -1,5 +1,5 @@
 ---
-title: iOS SwiftUi Alamofire
+title: iOS SwiftUi Alamofire 기초
 author: Narvis2
 date: 2022-12-02 10:59:00 +0900
 categories: [Swift, Alamofire]
@@ -28,7 +28,7 @@ tags: [iOS, Alamofire]
 - 첫 번째 파라미터 👉 `url`
 - `method` 👉 통신방식 선택 (`get`, `post`, `delete`, `patch`, `put` 등)
 - `parameters` 👉 `paramters` 가 없는 경우 `nil` 값 할당, **_`[String:String]` 형태로 보낼 수 있음_**
-  > `paramters: ["foo": "bar"]` 이런식으로 보낼 수 있음
+  > `paramters: ["foo": "bar"]` 이런식으로 보낼 수 있음.
 - `encoding` 👉 `URL`이기에 `URLEncoding` 넣기
 - `headers` 👉 헤더 값 할당, `json` 형식으로 받게끔 작성, **_`[String:String]`형태로 보낼 수 있음_**
 - `validate` 👉 유효성 검사
