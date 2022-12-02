@@ -17,6 +17,7 @@ tags: [iOS, Combine, SwiftUi, Publisher]
 ### ☘️ Just
 
 - 가장 단순한 형태의 `Publisher`
+- 단일 `Event` 발생 후 종료되는 `Publisher`
 - **_`Error` 타입은 항상 `Never`_**
   > **_예제_** 👇
   ```swift
@@ -28,6 +29,7 @@ tags: [iOS, Combine, SwiftUi, Publisher]
 ### ☘️ Future
 
 - 일반적으로 `Publisher`의 처리를 `sink`라는 구독을 형태로 많이 처리하게 되는데 이 때 `Closure`를 전달하는 과정에서 **_`Callback` 기반의 `completion` 핸들러를 사용하게 되는데 `Future`를 통하여 더욱 깔끔한 코드 작성_** 이 가능
+- 단일 `Event`와 종료 혹은 실패를 제공하는 `Publisher`
 
   > 1️⃣ **_예제_** ) 간단한 사용 👇
 
@@ -75,6 +77,7 @@ tags: [iOS, Combine, SwiftUi, Publisher]
 ### ☘️ Empty
 
 - 값을 게시하지 않고 선택적으로 즉시 완료되는 `Publisher`
+  > ✅ 즉, **_`Event` 없이 종료되는 `Publisher`_**
 - 어떤 데이터도 발행하지 않는 `Publisher`로 주로 `Error`처리나, `Optional`값을 처리할 때 사용
 
   > **_예제_** 👇
@@ -90,9 +93,24 @@ tags: [iOS, Combine, SwiftUi, Publisher]
   )
   ```
 
+### ☘️ Fail
+
+- 오류와 함께 종료되는 `Publisher`
+  > **_예제_** 👇
+  ```swift
+  let failed = Fail<String, Error>(error: NSError(domain: "error", code: -1, userInfo: null))
+  _ = failed.sink {
+      print($0)
+  } receiveValue: {
+      print($0)
+  }
+  // 결과 👉 failure(Error Domain=error Code=-1 "(null)")
+  ```
+
 ### ☘️ Deffered
 
 - **_구독이 일어나기 전까지 대기상태로_** 있다가 구독이 일어 났을 때 `Publisher`가 결정이 됨
+  > ✅ 즉, 구독(`Subscribers`)이 이루어질때 `publisher`가 만들어 짐
 - `Closure` 안에는 지연 실행 할 `Publisher`를 반환함
   > **_예제_** 👇
   ```swift
@@ -110,3 +128,40 @@ tags: [iOS, Combine, SwiftUi, Publisher]
           print("Sequence : \($0)")
       })
   ```
+
+### ☘️ Record
+
+- 입력과 완료를 기록해 후에 다른 `Subsciber`에서 반복될 수 있는 `Publisher`
+
+  > **_예제_** 👇
+
+  ```swift
+  let record = Record<String, Error> { recoding in
+      print("make recording")
+      recording.receive("jack")
+      recording.receive("tom")
+      recording.receive(completion: .finished)
+  }
+
+  _ = record.sink {
+      print($0)
+  } receiveValue: {
+      print($0)
+  }
+
+  _ = record.sink {
+      print($0)
+  } receiveValue: {
+      print($0)
+  }
+  ```
+
+  > **_결과_**
+  >
+  > - make recording
+  > - jack
+  > - tom
+  > - finished
+  > - jack
+  > - tom
+  > - finished
