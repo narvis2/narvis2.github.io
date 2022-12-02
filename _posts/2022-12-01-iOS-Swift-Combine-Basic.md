@@ -74,6 +74,8 @@ tags: [iOS, Combine, SwiftUi]
 - 모든 구독은 `subscriber`로 끝남
 - ✅ 2개의 내장된 `subscriber`
   - 1️⃣ `sink` 👉 `output value`와 `completion`을 받을 수 있는 `클로저`를 제공할 수 있음.
+    > - `receiveCompletion` 👉 `stream`이 성공, 실패로 종료되었음을 알려줌
+    > - `receiveValue` 👉 값을 받을 때 실행되는 `Closure`
   - 2️⃣ `assign` 👉 `output`을 `key path`를 통해 `data model`의 `property`나 `UI control`에 바로 `binding`할 수 있음.
 
 ### ☘️ Subscriptions
