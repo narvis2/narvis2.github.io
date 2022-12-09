@@ -1,5 +1,5 @@
 ---
-title: Promise, async, await 알아보기
+title: JavaScript 비동기 작업 Promise, async, await 알아보기
 author: Narvis2
 date: 2022-12-09 17:19:00 +0900
 categories: [React-Native, JavaScript]
