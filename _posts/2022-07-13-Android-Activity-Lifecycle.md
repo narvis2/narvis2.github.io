@@ -13,7 +13,7 @@ tags: [android, activity, lifecycle]
 [구글 공식 홈페이지](https://developer.android.com/guide/components/activities/activity-lifecycle?hl=ko)에 나와있는 이미지를 참고하시면 이해가 쉽습니다.  
 해당 이미지를 참고하여 `Activity` `Lifecycle` 의 순서를 보면 **_`Activity` 생성 시 `onCreate()` -> `onStart()` -> `onResume()` 의 순서로 콜백이 실행_** 되며 **_`Activity`의 구성요소 혹은 일부가 사라지면 `onPause()` -> `onStop()` -> `onDestory()` 순으로 콜백이 실행되며_** `onDestory()` 이후에 `Activity`가 종료됩니다.
 
-> **_참고_** 👉 <u>`Activity`가 중지(`onStop()`)상태에서 **_다시 화면에 보여지면_** `Lifecycycle`은 어떻게 될까요??</u>
+> **_참고_** 👉 `Activity`가 중지(`onStop()`)상태에서 **_다시 화면에 보여지면_** `Lifecycycle`은 어떻게 될까요??
 >
 > - ✅ `onRestart()` -> `onStart()` -> `onResume()` -> `ActivityRunning` 순으로 실행됩니다.
 > - `Activity`가 `onDestory()`를 타지않고 **_`onStop()`에서 다시 보여진다면 `onCreate()`가 호출되지 않고 `onRestart()`가 호출_** 된다는 점 꼭 기억해주세요!!
