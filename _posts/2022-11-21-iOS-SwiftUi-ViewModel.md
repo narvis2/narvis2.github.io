@@ -47,7 +47,7 @@ tags: [ObservableObject, ObservedObject, Published, StateObject, ViewModel]
 - `ObservableObject`를 이용하여 `Data Model`과 `View`를 쉽게 `Binding`할 수 있음
 - `ObservableObject`로 `ViewModel`을 설정하고, `View` 단에서는 `ViewModel`에 `@ObservedObject`를 붙여줌으로서 `ViewModel`의 **_변화를 관찰_** 할 수 있고, 그 변화에 반응할 수 있음
 
-### ☘️ ObservableOjbect
+### ☘️ @ObservableOjbect
 
 - 해당 클래스의 인스턴스를 관찰하고 있다가 값이 변경되면 `View`를 `Update`한다.
 
@@ -59,9 +59,9 @@ tags: [ObservableObject, ObservedObject, Published, StateObject, ViewModel]
   }
   ```
 
-### ☘️ Published
+### ☘️ @Published
 
-- `ObservableOject` 에서 속성을 선언할 때 사용하는 `PropertyWrapper`
+- `ObservableOject` 에서 **_속성을 선언할 때 사용_** 하는 `PropertyWrapper`
 - 해당 속성이 업데이트 될 때마다 `View`를 `Update`, `$` `operator`를 붙여 게시자에 엑세스 가능
 - `@Published`가 붙어있는 변수가 **_변경_** 되면 이를 **_지켜보고 있는 `View`에게 `ViewModel`이 변경되었음을 알려주고, `View`는 새로운 객체를 바탕으로 `View`를 `Refresh` 한다._**
 - Android 의 `LiveData`와 유사
@@ -86,7 +86,7 @@ tags: [ObservableObject, ObservedObject, Published, StateObject, ViewModel]
   }
   ```
 
-### ☘️ ObservedObject
+### ☘️ @ObservedObject
 
 - `ObservableObject`를 `구독`하고 **_값이 `Update`될 때 마다 `View`를 갱신하는 `PropertyWrapper`_**
 - `View`를 만료시키고 새로 그림
@@ -101,7 +101,7 @@ tags: [ObservableObject, ObservedObject, Published, StateObject, ViewModel]
   }
   ```
 
-### ☘️ StateObject
+### ☘️ @StateObject
 
 - **_단 한 번 인스턴스가 생성_**
 - `View`를 처음부터 새로 그리지 않고, `ObservableObject`에서의 데이터가 변할 때, 그 **_`ObservableObject`의 데이터가 들어간 부분만 `View`를 다시 그 림_**
@@ -134,6 +134,49 @@ tags: [ObservableObject, ObservedObject, Published, StateObject, ViewModel]
     @ObservedObject var viewModel: ViewModel
     var body: some View {
         Text("Hello")
+    }
+  }
+  ```
+
+### ☘️ @State
+
+- `DataBinding`을 위해 사용
+  > - `$` 키워드를 붙혀 `DataBinding`
+  > - `$`가 붙으면 **_값을 수정가능한_** `Binding`타입 참조
+- `@State`는 `View` 외부로는 사용할 수가 없고 **_`private` 형태로 내부에서만 사용_**
+
+  > **_예제_** 👇
+
+  ```swift
+  struct ContentView: View {
+    @State var isToggleOn: Bool = true
+
+    var body: some View {
+      VStrck {
+        Toggle(isOn: $isToggleOn) {
+          Text("글자를 가립니다.")
+        }.padding()
+
+        if isToggleOn {
+          Text("그으으을자!")
+        }
+      }
+    }
+  }
+  ```
+
+### ☘️ @Binding
+
+- **_2개의 `View`가 동시에 하나의 `State`를 참조_** 해야하는 경우 사용
+
+  > **_예제_** 👇
+
+  ```swift
+  struct Toggole: View {
+    @Binding var isOn: Bool
+
+    var body: some View {
+      // TODO..
     }
   }
   ```
